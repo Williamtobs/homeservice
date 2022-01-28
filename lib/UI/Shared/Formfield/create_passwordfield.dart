@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeservice/Constants/validators.dart';
 
 class PasswordField extends StatelessWidget{
   final String? hintText;
@@ -42,7 +43,7 @@ class PasswordField extends StatelessWidget{
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      validator: _validatePassword,
+      validator: Validators().validatePassword,
       onSaved: onSaved,
       autofocus: false,
       obscureText: obscureText,
@@ -54,6 +55,10 @@ class PasswordField extends StatelessWidget{
         hintText: hintText,
         suffixIcon: suffixIcon,
         enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
           borderSide: const BorderSide(color: Colors.white),
         ),
@@ -77,27 +82,4 @@ class PasswordField extends StatelessWidget{
     );
   }
 
-}
-
-String? _validatePassword(String? pass1) {
-  RegExp hasUpper = RegExp(r'[A-Z]');
-  RegExp hasLower = RegExp(r'[a-z]');
-  RegExp hasDigit = RegExp(r'\d');
-  RegExp hasPunct = RegExp(r'[_!@#\$&*~-]');
-  if (!RegExp(r'.{6,}').hasMatch(pass1!)) {
-    return 'Passwords must have at least 8 characters';
-  }
-  if (!hasUpper.hasMatch(pass1)) {
-    return 'Passwords must have at least one uppercase character';
-  }
-  if (!hasLower.hasMatch(pass1)) {
-    return 'Passwords must have at least one lowercase character';
-  }
-  if (!hasDigit.hasMatch(pass1)) {
-    return 'Passwords must have at least one number';
-  }
-  if (!hasPunct.hasMatch(pass1)) {
-    return 'Passwords need at least one special character like !@#\$&*~-';
-  }
-  return null;
 }

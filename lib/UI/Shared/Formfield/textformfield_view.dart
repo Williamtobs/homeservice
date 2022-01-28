@@ -29,6 +29,7 @@ class TextFormFieldWidget extends StatefulWidget {
   final TextInputAction? actionKeyboard;
   final Function? onSubmitField;
   final Function? onFieldTap;
+  final String? Function(String?)? validate;
 
   const TextFormFieldWidget(
       {
@@ -44,7 +45,7 @@ class TextFormFieldWidget extends StatefulWidget {
         this.actionKeyboard = TextInputAction.next,
         this.onSubmitField,
         this.onFieldTap,
-        this.suffixIcon, this.onPressed}) : super(key: key);
+        this.suffixIcon, this.onPressed, this.validate}) : super(key: key);
 
   @override
   _TextFormFieldWidgetState createState() => _TextFormFieldWidgetState();
@@ -82,6 +83,10 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
           borderRadius: BorderRadius.circular(15.0),
           borderSide: const BorderSide(color: Colors.white),
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
         hintStyle: GoogleFonts.montserrat(
           color: const Color.fromRGBO(132, 132, 132, 1),
           fontSize: 14.0,
@@ -96,14 +101,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
         ),
       ),
       controller: widget.controller,
-      validator: (value) {
-        if (widget.functionValidate != null) {
-          String resultValidate =
-          widget.functionValidate!(value, widget.parametersValidate);
-          return resultValidate;
-        }
-        return null;
-      },
+      validator: widget.validate,
       onFieldSubmitted: (value) {
         if (widget.onSubmitField != null) widget.onSubmitField!();
       },
@@ -112,25 +110,4 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
       },
     );
   }
-}
-
-String? commonValidation(String value, String messageError) {
-  var required = requiredValidator(value, messageError);
-  if (required != null) {
-    return required;
-  }
-  return null;
-}
-
-String? requiredValidator(value, messageError) {
-  if (value.isEmpty) {
-    return messageError;
-  }
-  return null;
-}
-
-void changeFocus(
-    BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
-  currentFocus.unfocus();
-  FocusScope.of(context).requestFocus(nextFocus);
 }
