@@ -11,16 +11,8 @@ class  CreatePassword extends StatefulWidget{
 }
 
 class _CreatePasswordState extends State<CreatePassword> {
-  bool visibility = false;
-  bool visibility2 = false;
-
-  void _visibility(bool? value) => setState((){
-    visibility = value!;
-  });
-
-  void _visibility2(bool? value) => setState((){
-    visibility = value!;
-  });
+  bool visibility = true;
+  bool visibility2 = true;
 
   @override
   Widget build(BuildContext context) {

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/Constants/validators.dart';
 import 'package:homeservice/UI/Home/home.dart';
+import 'package:homeservice/UI/Login/login_view.dart';
 import 'package:homeservice/UI/Shared/Formfield/create_passwordfield.dart';
+import 'package:homeservice/UI/Shared/Formfield/drop_down_field.dart';
 import 'package:homeservice/UI/Shared/Formfield/textformfield_view.dart';
 import 'package:homeservice/UI/Shared/images.dart';
+import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
 
 class SignUp extends StatefulWidget{
   const SignUp({Key? key}) : super(key: key);
@@ -20,85 +23,107 @@ class _SignUpState extends State<SignUp> {
   bool agree = false;
   bool visibility = true;
 
+  final _focusNode = FocusNode();
+
   void _onRememberMeChanged(bool? newValue) => setState(() {
     agree = newValue!; });
+
+  @override
+  void initState(){
+    super.initState();
+    _focusNode.addListener(() {print(_focusNode.hasFocus);});
+  }
+
+  @override
+  void dispose(){
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Scaffold(
-        body: Column(
-            mainAxisAlignment : MainAxisAlignment.end,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Stack(
-                children: [
-                  Container(
-                      color: const Color.fromRGBO(255, 255, 255, 1)
-                  ),
-                  Align(
-                    alignment:Alignment.topCenter,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          colorFilter:
-                          ColorFilter.mode(Colors.blue.withOpacity(0.7),
-                              BlendMode.dstATop),
-                          image: const AssetImage(
-                            onboarding3,
-                          ),
-                        ),),
-                      height: MediaQuery.of(context).size.height * 0.30,
-                      width: MediaQuery.of(context).size.width,
+        body: SingleChildScrollView(
+          child: Column(
+              mainAxisAlignment : MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Stack(
+                  children: [
+                    Container(
+                        color: const Color.fromRGBO(255, 255, 255, 1)
                     ),
-                  ),
-                  Align(
-                    alignment:Alignment.topCenter,
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 10,),
-                          ListTile(
-                            tileColor: Colors.transparent,
-                            leading: const Icon(
-                              Icons.arrow_back_ios_outlined,
-                                color: Color.fromRGBO(255, 255, 255, 1)
+                    Align(
+                      alignment:Alignment.topCenter,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            colorFilter:
+                            ColorFilter.mode(Colors.blue.withOpacity(0.7),
+                                BlendMode.dstATop),
+                            image: const AssetImage(
+                              onboarding3,
                             ),
-                            title: Text('Register Account',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.w600,
-                                color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 17.0
-                            ),),
-                            trailing: const Icon(
-                              Icons.clear_outlined,
-                                color: Color.fromRGBO(255, 255, 255, 1)
-                            ),
-                          ),
-                        ],
+                          ),),
+                        height: MediaQuery.of(context).size.height * 0.30,
+                        width: MediaQuery.of(context).size.width,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
-                        height: MediaQuery.of(context).size.height * 0.80,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: const BoxDecoration(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35))
-                      ),
-                      child: SingleChildScrollView(
-                        physics: const AlwaysScrollableScrollPhysics(),
+                    Align(
+                      alignment:Alignment.topCenter,
+                      child: Container(
+                        color: Colors.transparent,
                         child: Column(
-                            crossAxisAlignment : CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 15,),
+                            ListTile(
+                              tileColor: Colors.transparent,
+                              leading: GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Icon(
+                                  Icons.arrow_back_ios_outlined,
+                                    color: Color.fromRGBO(255, 255, 255, 1)
+                                ),
+                              ),
+                              title: Text('Register Account',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color.fromRGBO(255, 255, 255, 1),
+                                  fontSize: 17.0
+                              ),),
+                              trailing: GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const OnboardingScreen2()));
+                                },
+                                child: const Icon(
+                                  Icons.clear_outlined,
+                                    color: Color.fromRGBO(255, 255, 255, 1)
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+                          height: MediaQuery.of(context).size.height * 0.80,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: const BoxDecoration(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35))
+                        ),
+                        child: ListView(
                           children:[
                             Row(
                               children: [
@@ -107,6 +132,7 @@ class _SignUpState extends State<SignUp> {
                                     color: const Color.fromRGBO(0, 0, 0, 1),
                                     fontSize: 30.0
                                 )),
+                                const SizedBox(width: 10),
                                 Image.asset(hello, width: 35, height: 35)
                               ],
                             ),
@@ -162,13 +188,15 @@ class _SignUpState extends State<SignUp> {
                               }); },
                             ), obscureText: visibility, hintText: 'Password',),
                             const SizedBox(height: 5),
-                            const TextFormFieldWidget(hintText: "State", textInputType: TextInputType.text, ),
+                            SizedBox(
+                              height: 50.0,
+                                child: DropDownField(validate: Validators().validateTextField)),
                             const SizedBox(height: 5),
                             const TextFormFieldWidget(hintText: "Discount Code", textInputType: TextInputType.text, ),
                             const SizedBox(height: 5),
                             Row(
                               children:[
-                                Checkbox(value: agree, onChanged: _onRememberMeChanged, shape: const CircleBorder(),),
+                                Checkbox(value: agree, activeColor: Colors.green, onChanged: _onRememberMeChanged, shape: const CircleBorder(),),
                                 Expanded(
                                   child: Text('By creating an account you agree to our Terms of services', style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w600,
@@ -222,25 +250,31 @@ class _SignUpState extends State<SignUp> {
                                   fontSize: 12.0,
                                 )),
                                 const SizedBox(height: 5),
-                                Text('Log in', style: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color.fromRGBO(31, 68, 141, 1),
-                                  fontSize: 13.0,
-                                ))
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Login()));
+                                  },
+                                  child: Text('Log in', style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color.fromRGBO(31, 68, 141, 1),
+                                    fontSize: 13.0,
+                                  )),
+                                )
                               ]
                             )
                           ]
-                        ),
-                      )
-                    ),
-                  )
+                        )
+                      ),
+                    )
 
-                ]
+                  ]
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         )
       ),
     );
+
   }
 }

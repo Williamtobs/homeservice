@@ -52,7 +52,6 @@ class TextFormFieldWidget extends StatefulWidget {
 }
 
 class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
-  double bottomPaddingToError = 12;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +74,10 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
         fillColor: const Color.fromRGBO(229, 229, 229, 1),
         suffixIcon: widget.suffixIcon,
         hintText: widget.hintText,
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          borderSide: const BorderSide(color: Colors.white),
+          ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
           borderSide: const BorderSide(color: Colors.white),
