@@ -14,9 +14,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Home Service App',
-      home: SplashScreen(),
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: const  ColorScheme.light(
+          secondary: Color.fromRGBO(31, 68, 141, 1),
+          primary: Color.fromRGBO(31, 68, 141, 1),
+        ),
+      ),
     );
   }
 }

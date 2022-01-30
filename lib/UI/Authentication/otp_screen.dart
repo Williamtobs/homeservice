@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeservice/UI/Authentication/create_password.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 
@@ -32,6 +33,7 @@ class OtpScreen extends StatelessWidget{
               textFieldAlignment: MainAxisAlignment.spaceAround,
               fieldStyle: FieldStyle.box,
               onCompleted: (pin) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CreatePassword()));
                 print("Completed: " + pin);
               },
             ),

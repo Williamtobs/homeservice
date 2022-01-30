@@ -58,6 +58,10 @@ class PasswordField extends StatelessWidget{
           borderRadius: BorderRadius.circular(15.0),
           borderSide: const BorderSide(color: Colors.white),
         ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+      borderSide: const BorderSide(color: Colors.white),
+    ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
           borderSide: const BorderSide(color: Colors.white),
