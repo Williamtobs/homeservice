@@ -1,6 +1,6 @@
 {
-    "name": "homeservice",
-    "short_name": "homeservice",
+    "name": "lyrically",
+    "short_name": "lyrically",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
