@@ -61,8 +61,6 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
       obscureText: widget.obscureText!,
       keyboardType: widget.textInputType,
       textInputAction: widget.actionKeyboard,
-      focusNode: widget.focusNode,
-
       style: GoogleFonts.montserrat(
         color: const Color.fromRGBO(132, 132, 132, 1),
         fontSize: 14.0,

@@ -23,22 +23,9 @@ class _SignUpState extends State<SignUp> {
   bool agree = false;
   bool visibility = true;
 
-  final _focusNode = FocusNode();
-
   void _onRememberMeChanged(bool? newValue) => setState(() {
     agree = newValue!; });
 
-  @override
-  void initState(){
-    super.initState();
-    _focusNode.addListener(() {print(_focusNode.hasFocus);});
-  }
-
-  @override
-  void dispose(){
-    _focusNode.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

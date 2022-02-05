@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/UI/Authentication/forgot_password.dart';
-import 'package:homeservice/UI/Home/home.dart';
 import 'package:homeservice/UI/Shared/Formfield/textformfield_view.dart';
+import 'package:homeservice/UI/Shared/custom_navigation.dart';
 import 'package:homeservice/UI/Shared/images.dart';
 import 'package:homeservice/UI/Signup/signup_view.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
@@ -168,7 +167,7 @@ class _LoginState extends State<Login> {
                                         color: const Color.fromRGBO(31, 68, 141, 1)
                                     ),
                                     child: ElevatedButton(onPressed:(){
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CustomNavigation()));
                                     }, style: ElevatedButton.styleFrom(
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(35.0),
