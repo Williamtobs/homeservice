@@ -40,8 +40,8 @@ class HomeScreen extends StatelessWidget{
                     height: MediaQuery.of(context).size.height * 0.35,
                     child: Stack(
                       children:[ Positioned(
-                        top: -18,
-                        left: -20,
+                        top: -20,
+                        left: -25,
                         child: Container(
                           width: 150,
                           height: 150,
@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget{
                         ),
                       ),
                       Positioned(
-                        bottom: -15,
+                        bottom: -20,
                         right: -25,
                         child: Container(
                           width: 150,
@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget{
                         ),
                       ),
                         Positioned(
-                          bottom: 50,
+                          bottom: 30,
                           left: 0,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +93,7 @@ class HomeScreen extends StatelessWidget{
                   ),
                 ),
                 Positioned(
-                  bottom: 0,
+                  bottom: 5,
                   child: Container(
                       height: MediaQuery.of(context).size.height * 0.68,
                       width: MediaQuery.of(context).size.width,
@@ -104,39 +104,46 @@ class HomeScreen extends StatelessWidget{
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20.0,
-                          bottom: 10.0, top: 10),
-                      child: ListView(
+                          bottom: 10.0, top: 40.0),
+                      child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
-                        children: [
-                          Container(
-                            height: 120,
-                            width: 100,
-                            decoration: const BoxDecoration(
-                                color: Color.fromRGBO(202, 220, 255, 1),
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15), bottomLeft: Radius.circular(15),
-                                  bottomRight: Radius.circular(15),)
+                        child: Column(
+                          crossAxisAlignment : CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 120,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(202, 220, 255, 1),
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15), bottomLeft: Radius.circular(15),
+                                    bottomRight: Radius.circular(15),)
+                              ),
+                              padding: const EdgeInsets.only(left: 40, right: 40, top: 40, bottom: 20),
+                              child: SizedBox(
+                                width: 50,
+                                child: Text('Enjoy 20% discount'
+                                    ' on your first service', style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color.fromRGBO(0, 0, 0, 1),
+                                    fontSize: 19.0
+                                )),
+                              ),
                             ),
-                            padding: const EdgeInsets.all(40),
-                            child: SizedBox(
-                              width: 50,
-                              child: Text('Enjoy 20% discount'
-                                  ' on your first service', style: GoogleFonts.montserrat(
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              height: 20,
+                              child: Text('Services', style: GoogleFonts.montserrat(
                                   fontWeight: FontWeight.w600,
                                   color: const Color.fromRGBO(0, 0, 0, 1),
                                   fontSize: 19.0
                               )),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          Text('Services', style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.w600,
-                              color: const Color.fromRGBO(0, 0, 0, 1),
-                              fontSize: 19.0
-                          )),
-                          const SizedBox(height: 10),
-                          const Gridview()
-                        ],
+                            const Gridview(),
+                            const SizedBox(height: 40),
+                            const Text('')
+                          ],
+                        ),
                       ),
                     )),
                 )

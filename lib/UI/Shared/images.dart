@@ -16,3 +16,5 @@ const String spa = "assets/spa.png";
 const String supermarket = "assets/supermarket.png";
 const String sweeping = "assets/sweeping.png";
 const String smiling = "assets/smile.png";
+const String homeicon = "assets/homeicon.png";
+const String chat = "assets/chat.png";
