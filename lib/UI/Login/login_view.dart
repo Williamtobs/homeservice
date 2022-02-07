@@ -39,6 +39,32 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_outlined,
+                color: Color.fromRGBO(255, 255, 255, 1)), onPressed: () {
+            Navigator.of(context).pop();
+          },
+          ),
+          title: Text('Login',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.w600,
+                color: const Color.fromRGBO(255, 255, 255, 1),
+                fontSize: 17.0
+            ),),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.clear_outlined,
+                  color: Color.fromRGBO(255, 255, 255, 1)), onPressed: (){
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const OnboardingScreen2()));
+            },
+            ),
+          ],
+        ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment : MainAxisAlignment.end,
@@ -68,7 +94,7 @@ class _LoginState extends State<Login> {
                         width: MediaQuery.of(context).size.width,
                       ),
                     ),
-                    Align(
+                    /*Align(
                       alignment:Alignment.topCenter,
                       child: Container(
                         color: Colors.transparent,
@@ -106,7 +132,7 @@ class _LoginState extends State<Login> {
                           ],
                         ),
                       ),
-                    ),
+                    ),*/
                     Positioned(
                       bottom: 0,
                       child: Container(

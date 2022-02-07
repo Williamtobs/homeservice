@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:homeservice/UI/Authentication/auth_checker.dart';
 import 'package:homeservice/UI/Shared/images.dart';
 
 import 'onboarding_screen.dart';
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 5),
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
-                (context) => const OnboardingScreen()
+                (context) => const AuthChecker()
             )
         )
     );
