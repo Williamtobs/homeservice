@@ -139,7 +139,9 @@ class HomeScreen extends StatelessWidget{
                                   fontSize: 19.0
                               )),
                             ),
-                            const Gridview(),
+                            const Align(
+                              alignment: Alignment.topCenter,
+                                child: Gridview()),
                             const SizedBox(height: 40),
                             const Text('')
                           ],
