@@ -121,45 +121,6 @@ class _SignUpState extends State<SignUp> {
                             width: MediaQuery.of(context).size.width,
                           ),
                         ),
-                        /*Align(
-                          alignment:Alignment.topCenter,
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 15,),
-                                ListTile(
-                                  tileColor: Colors.transparent,
-                                  leading: GestureDetector(
-                                    onTap: (){
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Icon(
-                                      Icons.arrow_back_ios_outlined,
-                                        color: Color.fromRGBO(255, 255, 255, 1)
-                                    ),
-                                  ),
-                                  title: Text('Register Account',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color.fromRGBO(255, 255, 255, 1),
-                                      fontSize: 17.0
-                                  ),),
-                                  trailing: GestureDetector(
-                                    onTap: (){
-                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const OnboardingScreen2()));
-                                    },
-                                    child: const Icon(
-                                      Icons.clear_outlined,
-                                        color: Color.fromRGBO(255, 255, 255, 1)
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),*/
                         Positioned(
                           bottom: 0,
                           child: Container(

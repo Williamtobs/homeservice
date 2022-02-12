@@ -58,6 +58,32 @@ class Authentication {
     }
   }
 
+  Future<void> resetPassword(String email, BuildContext context) async {
+    try{
+      await _auth.sendPasswordResetEmail(email: email);
+    }
+    on FirebaseAuthException catch (e){
+      await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+              title: Text(Errors.show(e.code)),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: const Text("OK"))
+              ]));
+    } catch (e) {
+      if (e == 'Email not registered') {
+        print('Email not registered');
+      } else {
+        print('Error: $e');
+      }
+    }
+  }
+
   //  SignOut the current user
   Future<void> signOut() async {
     await _auth.signOut();

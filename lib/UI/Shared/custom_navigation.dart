@@ -75,7 +75,6 @@ class _CustomNavigationState extends State<CustomNavigation> {
           bottom: 0,
           child: Container(
             padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-            height: 60,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: Colors.white,

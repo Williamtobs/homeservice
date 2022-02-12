@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeservice/UI/Shared/Sidebar/side_bar.dart';
 
 import 'gridview.dart';
 
@@ -25,6 +26,7 @@ class HomeScreen extends StatelessWidget{
           ),
         ],
       ),
+      drawer: const SideBar(),
       body: Column(
         children: [
           Container(
@@ -139,9 +141,7 @@ class HomeScreen extends StatelessWidget{
                                   fontSize: 19.0
                               )),
                             ),
-                            const Align(
-                              alignment: Alignment.topCenter,
-                                child: Gridview()),
+                            const SizedBox(child: Gridview()),
                             const SizedBox(height: 40),
                             const Text('')
                           ],

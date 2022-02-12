@@ -15,7 +15,6 @@ class Gridview extends StatelessWidget{
       mainAxisSpacing: 15,
       physics:const BouncingScrollPhysics(),
       children: homeService.map((data) => Container(
-        height: 104,
         width: 90,
         color: const Color.fromRGBO(229, 229, 229, 1),
         child: Column(
