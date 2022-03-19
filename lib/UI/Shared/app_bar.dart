@@ -11,6 +11,12 @@ class Appbar extends StatelessWidget{
     return AppBar(
       backgroundColor: const Color.fromRGBO(254, 254, 254, 1),
         elevation: 1,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back_ios_new_outlined,
+          color: Colors.black,
+        ), onPressed: () { Navigator.of(context).pop(); },
+      ),
       title: Text(notification!, style: GoogleFonts.montserrat(
           fontWeight: FontWeight.w600,
           color: const Color.fromRGBO(0, 0, 0, 1),

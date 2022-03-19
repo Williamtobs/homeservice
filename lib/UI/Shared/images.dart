@@ -19,3 +19,7 @@ const String smiling = "assets/smile.png";
 const String homeicon = "assets/homeicon.png";
 const String chat = "assets/chat.png";
 const String avatar = "assets/avatar.png";
+const String car = "assets/Carpool.png";
+const String drink = "assets/Champagne.png";
+const String utilities = "assets/Geography.png";
+const String ticket = "assets/ticket.png";
