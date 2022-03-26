@@ -24,6 +24,7 @@ class AuthChecker extends ConsumerWidget {
     return _authState.when(
         data: (data) {
           if (data != null) return CustomNavigation();
+          print(data);
           return const OnboardingScreen();
         },
         loading: () => const CircularProgressIndicator(),

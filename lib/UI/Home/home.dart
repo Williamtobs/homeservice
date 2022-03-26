@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/UI/Notification/notification_screen.dart';
@@ -67,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          bottom: 30,
+                          bottom: 50,
                           left: 0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: 5,
+                    bottom: 0,
                     child: Container(
                         height: MediaQuery.of(context).size.height * 0.68,
                         width: MediaQuery.of(context).size.width,
@@ -112,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                                 topRight: Radius.circular(35))),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0, bottom: 10.0, top: 40.0),
+                              left: 10.0, right: 10.0, bottom: 10.0, top: 40.0),
                           child: SingleChildScrollView(
                             physics: const BouncingScrollPhysics(),
                             child: Column(
@@ -120,9 +119,8 @@ class HomeScreen extends StatelessWidget {
                               children: [
                                 Container(
                                   height: 100,
-                                  width: 400,
                                   decoration: const BoxDecoration(
-                                      color: Color.fromRGBO(202, 220, 255, 1),
+                                      color: Color.fromRGBO(31, 68, 141, 1),
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(15),
                                         topRight: Radius.circular(15),
@@ -141,9 +139,9 @@ class HomeScreen extends StatelessWidget {
                                               fontStyle: FontStyle.normal,
                                               color: const Color.fromRGBO(
                                                   255, 255, 255, 1),
-                                              fontSize: 11.0)),
+                                              fontSize: 13.0)),
                                       const SizedBox(
-                                        height: 20,
+                                        height: 15,
                                       ),
                                       Row(
                                         children: [
@@ -159,7 +157,7 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                           const Icon(
                                             Icons.visibility_outlined,
-                                            size: 15,
+                                            size: 20,
                                             color: Color.fromRGBO(
                                                 255, 255, 255, 1),
                                           ),
@@ -178,11 +176,11 @@ class HomeScreen extends StatelessWidget {
                                               children: [
                                                 const Icon(
                                                   Icons.add_circle_outlined,
-                                                  size: 12,
+                                                  size: 18,
                                                   color: Color.fromRGBO(
                                                       31, 68, 141, 1),
                                                 ),
-                                                const Spacer(),
+                                                const SizedBox(width: 15),
                                                 Text('Add Money',
                                                     style:
                                                         GoogleFonts.montserrat(
@@ -203,11 +201,11 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 20,
                                 ),
                                 Container(
                                   height: 120,
-                                  width: 400,
+                                  width: MediaQuery.of(context).size.width,
                                   decoration: const BoxDecoration(
                                       color: Color.fromRGBO(202, 220, 255, 1),
                                       borderRadius: BorderRadius.only(
@@ -240,9 +238,9 @@ class HomeScreen extends StatelessWidget {
                                               const Color.fromRGBO(0, 0, 0, 1),
                                           fontSize: 19.0)),
                                 ),
-                                const SizedBox(child: Gridview()),
+                                const SizedBox(height: 20),
+                                const Gridview(),
                                 const SizedBox(height: 40),
-                                const Text('')
                               ],
                             ),
                           ),
