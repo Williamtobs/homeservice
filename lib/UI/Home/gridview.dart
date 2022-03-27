@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/Constants/home_services.dart';
+import 'package:homeservice/UI/BarbingScreen/barbing_screen.dart';
+import 'package:homeservice/UI/Ticketscreen/select_ticket.dart';
 
 import '../Servicescreen/services.dart';
 
@@ -23,9 +25,17 @@ class Gridview extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => BookService(
-                                name: data.name!,
-                              )));
+                          builder: (context) => data.name! == 'Tickets'
+                              ? SelectTicket(
+                                  name: data.name!,
+                                )
+                              : data.name! == 'Barbing'
+                                  ? BarbingScreen(
+                                      name: data.name!,
+                                    )
+                                  : BookService(
+                                      name: data.name!,
+                                    )));
                 },
                 child: Container(
                   //width: 90,

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/Constants/home_services.dart';
+import 'package:homeservice/UI/BarbingScreen/barbing_screen.dart';
 import 'package:homeservice/UI/Servicescreen/service_widget.dart';
 import 'package:homeservice/UI/Shared/app_bar.dart';
+import 'package:homeservice/UI/Ticketscreen/select_ticket.dart';
 
 class BookService extends StatefulWidget {
   final String name;
@@ -27,7 +29,7 @@ class _BookServiceState extends State<BookService> {
           )),
       body: Column(
         children: [
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: SizedBox(
@@ -45,9 +47,19 @@ class _BookServiceState extends State<BookService> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => BookService(
-                                          name: homeService[index].name!,
-                                        )));
+                                    builder: (context) => homeService[index]
+                                                .name! ==
+                                            'Tickets'
+                                        ? SelectTicket(
+                                            name: homeService[index].name!,
+                                          )
+                                        : homeService[index].name! == 'Barbing'
+                                            ? BarbingScreen(
+                                                name: homeService[index].name!,
+                                              )
+                                            : BookService(
+                                                name: homeService[index].name!,
+                                              )));
                           },
                           child: ServiceWidgets(
                             icon: homeService[index].icon,

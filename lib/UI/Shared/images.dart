@@ -23,3 +23,5 @@ const String car = "assets/Carpool.png";
 const String drink = "assets/Champagne.png";
 const String utilities = "assets/Geography.png";
 const String ticket = "assets/ticket.png";
+const String stage = "assets/stage.png";
+const String check = "assets/check.png";
