@@ -9,6 +9,7 @@ class Appbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       backgroundColor: const Color.fromRGBO(254, 254, 254, 1),
       elevation: 1,
       leading: IconButton(

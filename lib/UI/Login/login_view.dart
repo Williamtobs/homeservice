@@ -58,10 +58,9 @@ class _LoginState extends State<Login> {
       final _auth = ref.watch(authenticationProvider);
 
       Future<void> _onPressedFunction() async {
-        if (!_formKey.currentState!.validate() || agree == false) {
+        if (!_formKey.currentState!.validate()) {
           return;
         }
-        //print('here');
         loading();
         await _auth
             .signInWithEmailAndPassword(email.text, password.text, context)
@@ -70,7 +69,6 @@ class _LoginState extends State<Login> {
                     loading();
                     return;
                   }
-                  print('here');
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CustomNavigation()));
                 }));

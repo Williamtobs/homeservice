@@ -36,7 +36,7 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
-        drawer: const SideBar(),
+        drawer: SideBar(),
         body: Column(
           children: [
             Container(
@@ -52,8 +52,8 @@ class HomeScreen extends ConsumerWidget {
                       height: MediaQuery.of(context).size.height * 0.35,
                       child: Stack(children: [
                         Positioned(
-                          top: -20,
-                          left: -25,
+                          top: -55,
+                          left: -55,
                           child: Container(
                             width: 150,
                             height: 150,
@@ -64,8 +64,8 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                         Positioned(
-                          bottom: -20,
-                          right: -25,
+                          bottom: -30,
+                          right: -35,
                           child: Container(
                             width: 150,
                             height: 150,
@@ -76,7 +76,7 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                         Positioned(
-                          bottom: 50,
+                          top: 140,
                           left: 0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +129,7 @@ class HomeScreen extends ConsumerWidget {
                   Positioned(
                     bottom: 0,
                     child: Container(
-                        height: MediaQuery.of(context).size.height * 0.68,
+                        height: MediaQuery.of(context).size.height * 0.73,
                         width: MediaQuery.of(context).size.width,
                         decoration: const BoxDecoration(
                             color: Color.fromRGBO(255, 255, 255, 1),
