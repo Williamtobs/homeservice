@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/UI/Shared/images.dart';
 
@@ -13,9 +15,11 @@ class BarbingScreen extends StatefulWidget {
 }
 
 class _BarbingScreenState extends State<BarbingScreen> {
-  String hairAmount = '3,000';
+  String? hairAmount;
 
-  String hairDyeAmount = '5,500';
+  String? hairDyeAmount;
+
+  String serviceAmount = '0';
 
   String service = '';
 
@@ -71,11 +75,34 @@ class _BarbingScreenState extends State<BarbingScreen> {
                             const SizedBox(
                               height: 5,
                             ),
-                            Text(hairAmount,
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color.fromRGBO(244, 18, 0, 1),
-                                    fontSize: 17.0))
+                            Consumer(builder: (context, ref, child) {
+                              var users = FirebaseFirestore.instance
+                                  .collection('services')
+                                  .doc('9QJWx7ykDh5HpCFhDWC7')
+                                  .snapshots();
+                              return StreamBuilder<DocumentSnapshot>(
+                                  stream: users,
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Text("Loading",
+                                          style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w500,
+                                            color: const Color.fromRGBO(
+                                                244, 18, 0, 1),
+                                            fontSize: 17.0,
+                                          ));
+                                    }
+                                    Map<String, dynamic> data = snapshot.data!
+                                        .data() as Map<String, dynamic>;
+                                    hairAmount = data['Barbing'];
+                                    return Text(hairAmount!,
+                                        style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w500,
+                                            color: const Color.fromRGBO(
+                                                244, 18, 0, 1),
+                                            fontSize: 17.0));
+                                  });
+                            })
                           ],
                         ),
                         const Spacer(),
@@ -90,6 +117,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
                                     onPressed: () {
                                       setState(() {
                                         service = 'Hair Cut';
+                                        serviceAmount = hairAmount!;
                                       });
                                     },
                                     child: Text('Select',
@@ -126,11 +154,34 @@ class _BarbingScreenState extends State<BarbingScreen> {
                             const SizedBox(
                               height: 5,
                             ),
-                            Text(hairDyeAmount,
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color.fromRGBO(244, 18, 0, 1),
-                                    fontSize: 17.0))
+                            Consumer(builder: (context, ref, child) {
+                              var users = FirebaseFirestore.instance
+                                  .collection('services')
+                                  .doc('9QJWx7ykDh5HpCFhDWC7')
+                                  .snapshots();
+                              return StreamBuilder<DocumentSnapshot>(
+                                  stream: users,
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Text("Loading",
+                                          style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w500,
+                                            color: const Color.fromRGBO(
+                                                244, 18, 0, 1),
+                                            fontSize: 17.0,
+                                          ));
+                                    }
+                                    Map<String, dynamic> data = snapshot.data!
+                                        .data() as Map<String, dynamic>;
+                                    hairDyeAmount = data['Barbing and Dye'];
+                                    return Text(hairDyeAmount!,
+                                        style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w500,
+                                            color: const Color.fromRGBO(
+                                                244, 18, 0, 1),
+                                            fontSize: 17.0));
+                                  });
+                            })
                           ],
                         ),
                         const Spacer(),
@@ -145,6 +196,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
                                     onPressed: () {
                                       setState(() {
                                         service = 'Hair Cut and Dyeing';
+                                        serviceAmount = hairDyeAmount!;
                                       });
                                     },
                                     child: Text('Select',
@@ -477,7 +529,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
                 ]),
             child: Row(
               children: [
-                Text('3,000',
+                Text(serviceAmount,
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w600,
                         color: const Color.fromRGBO(31, 68, 141, 1),
