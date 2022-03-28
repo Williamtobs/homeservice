@@ -41,7 +41,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Container(
-              height: 263,
+              //height: 263,
               decoration: BoxDecoration(
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   borderRadius: BorderRadius.circular(35)),
@@ -460,7 +460,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
           ),
           const Spacer(),
           Container(
-            height: 100,
+            height: 80,
             padding: const EdgeInsets.all(15),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(

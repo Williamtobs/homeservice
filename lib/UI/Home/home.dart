@@ -1,15 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeservice/Providers/auth_providers.dart';
 import 'package:homeservice/UI/Notification/notification_screen.dart';
 import 'package:homeservice/UI/Shared/Sidebar/side_bar.dart';
 
 import 'gridview.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends ConsumerWidget {
+  HomeScreen({Key? key}) : super(key: key);
+
+  String? name;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(fireBaseAuthProvider);
+    var users = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(data.currentUser!.uid)
+        .snapshots();
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -76,12 +86,29 @@ class HomeScreen extends StatelessWidget {
                                     left: 20.0,
                                     right: 20.0,
                                   ),
-                                  child: Text('Hi, John',
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w700,
-                                          color: const Color.fromRGBO(
-                                              255, 255, 255, 1),
-                                          fontSize: 28.0)),
+                                  child: StreamBuilder<DocumentSnapshot>(
+                                      stream: users,
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return Text("Loading",
+                                              style: GoogleFonts.montserrat(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: const Color.fromRGBO(
+                                                      255, 255, 255, 1),
+                                                  fontSize: 28.0));
+                                        }
+                                        Map<String, dynamic> data =
+                                            snapshot.data!.data()
+                                                as Map<String, dynamic>;
+                                        name = data['name'];
+                                        print(name);
+                                        return Text('Hi, $name',
+                                            style: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w700,
+                                                color: const Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                fontSize: 28.0));
+                                      }),
                                 ),
                                 const SizedBox(height: 5),
                                 Padding(

@@ -13,6 +13,8 @@ class SelectTicket extends StatelessWidget {
       'habitasse nec lectus consectetur. Pulvinar vitae vitae dapibus mi '
       'elementum lacus viverra.';
 
+  String selectTab = "Event";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,17 +24,17 @@ class SelectTicket extends StatelessWidget {
           child: Appbar(
             notification: name,
           )),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
+      body: Column(children: [
+        const SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Container(
             width: 459,
             height: 33,
             decoration: const BoxDecoration(
-                color: Color.fromRGBO(255, 243, 243, 1),
+                color: Color.fromARGB(255, 250, 247, 247),
                 borderRadius: BorderRadius.all(Radius.circular(30))),
             child: ListView(
                 physics: const BouncingScrollPhysics(),
@@ -42,15 +44,22 @@ class SelectTicket extends StatelessWidget {
                     options.length,
                     (index) => Containers(
                         name: options[index],
-                        boxColor: const Color.fromRGBO(255, 243, 243, 1),
-                        textColor: const Color.fromRGBO(0, 0, 0, 1)))),
+                        boxColor: options[index] == "Event"
+                            ? const Color.fromRGBO(31, 68, 141, 1)
+                            : const Color.fromRGBO(255, 243, 243, 1),
+                        textColor: options[index] == "Event"
+                            ? const Color.fromRGBO(255, 243, 243, 1)
+                            : const Color.fromRGBO(0, 0, 0, 1)))),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Cards(showName: eventName, description: description)
-        ]),
-      ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          child: Cards(showName: eventName, description: description),
+        )
+      ]),
     );
   }
 

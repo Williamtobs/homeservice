@@ -17,6 +17,7 @@ class Containers extends StatelessWidget {
     return Container(
       width: 86,
       height: 35,
+      alignment: Alignment.center,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
           color: boxColor, borderRadius: BorderRadius.circular(30)),

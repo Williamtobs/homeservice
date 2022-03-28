@@ -93,7 +93,7 @@ class _TicketScreenState extends State<TicketScreen> {
                         Row(
                           children: [
                             Container(
-                              width: 273,
+                              width: 230,
                               height: 39,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15)),
