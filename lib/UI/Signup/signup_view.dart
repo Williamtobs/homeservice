@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeservice/Constants/states.dart';
 import 'package:homeservice/Constants/validators.dart';
+import 'package:homeservice/Database/database.dart';
 import 'package:homeservice/Providers/auth_providers.dart';
 import 'package:homeservice/UI/Login/login_view.dart';
 import 'package:homeservice/UI/Shared/Formfield/create_passwordfield.dart';
-import 'package:homeservice/UI/Shared/Formfield/drop_down_field.dart';
 import 'package:homeservice/UI/Shared/Formfield/textformfield_view.dart';
 import 'package:homeservice/UI/Shared/custom_navigation.dart';
 import 'package:homeservice/UI/Shared/images.dart';
@@ -27,6 +28,12 @@ class _SignUpState extends State<SignUp> {
   bool _isLoading = false;
   final _email = TextEditingController();
   final _password = TextEditingController();
+  TextEditingController firstName = TextEditingController();
+  TextEditingController surName = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController code = TextEditingController();
+  var uid;
+  String? state;
 
   void _onRememberMeChanged(bool? newValue) => setState(() {
         agree = newValue!;
@@ -42,6 +49,9 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       final _auth = ref.watch(authenticationProvider);
+      final data = ref.watch(fireBaseAuthProvider);
+
+      //FirebaseAuth _auth = FirebaseAuth.instance;
 
       Future<void> _onPressedFunction() async {
         if (!_formKey.currentState!.validate()) {
@@ -56,7 +66,9 @@ class _SignUpState extends State<SignUp> {
                     loading();
                     return;
                   }
+                  print(data.currentUser!.uid);
                   print('here');
+                  saveInfo(data.currentUser!.uid);
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CustomNavigation()));
                 }));
@@ -126,7 +138,7 @@ class _SignUpState extends State<SignUp> {
                         bottom: 0,
                         child: Container(
                             padding: const EdgeInsets.only(
-                                top: 20, left: 20, right: 20, bottom: 10),
+                                top: 8, left: 20, right: 20, bottom: 10),
                             height: MediaQuery.of(context).size.height * 0.80,
                             width: MediaQuery.of(context).size.width,
                             decoration: const BoxDecoration(
@@ -134,7 +146,11 @@ class _SignUpState extends State<SignUp> {
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(35),
                                     topRight: Radius.circular(35))),
-                            child: ListView(children: [
+                            child:
+                                ListView(padding: EdgeInsets.zero, children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Row(
                                 children: [
                                   Text('Hello!',
@@ -164,12 +180,14 @@ class _SignUpState extends State<SignUp> {
                               const SizedBox(height: 5),
                               TextFormFieldWidget(
                                 hintText: "First Name",
+                                controller: firstName,
                                 textInputType: TextInputType.text,
                                 validate: Validators().validateTextField,
                               ),
                               const SizedBox(height: 5),
                               TextFormFieldWidget(
                                 hintText: "Last Name",
+                                controller: surName,
                                 textInputType: TextInputType.text,
                                 validate: Validators().validateTextField,
                               ),
@@ -183,6 +201,7 @@ class _SignUpState extends State<SignUp> {
                               const SizedBox(height: 5),
                               TextFormFieldWidget(
                                 hintText: "Your phone number",
+                                controller: phone,
                                 textInputType: TextInputType.text,
                                 validate: Validators().validateTextField,
                               ),
@@ -227,13 +246,64 @@ class _SignUpState extends State<SignUp> {
                                 hintText: 'Password',
                               ),
                               const SizedBox(height: 5),
-                              SizedBox(
+                              Container(
                                   height: 50.0,
-                                  child: DropDownField(
-                                      validate:
-                                          Validators().validateTextField)),
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    border: Border.all(
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 1)),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                      child: DropdownButton(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    hint: Text(
+                                      'States',
+                                      style: GoogleFonts.montserrat(
+                                        color: const Color.fromRGBO(
+                                            132, 132, 132, 1),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    icon: const Icon(
+                                        Icons.keyboard_arrow_down_outlined,
+                                        color: Colors.black),
+                                    value: state,
+                                    isDense: true,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        state = value;
+                                        print(state);
+                                        //hint = value!;
+                                        //state.didChange(value);
+                                      });
+                                    },
+                                    items: states
+                                        .map((String value) =>
+                                            DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(
+                                                value,
+                                                style: GoogleFonts.montserrat(
+                                                  color: const Color.fromRGBO(
+                                                      132, 132, 132, 1),
+                                                  fontSize: 13.0,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ))
+                                        .toList(),
+                                  ))),
+                              // SizedBox(
+                              //     height: 50.0,
+                              //     child: DropDownField(
+                              //       currentValue: state,
+                              //     )),
                               const SizedBox(height: 5),
-                              const TextFormFieldWidget(
+                              TextFormFieldWidget(
+                                controller: code,
                                 hintText: "Discount Code",
                                 textInputType: TextInputType.text,
                               ),
@@ -279,7 +349,9 @@ class _SignUpState extends State<SignUp> {
                                             31, 68, 141, 1)),
                                     child: _isLoading
                                         ? const Center(
-                                            child: CircularProgressIndicator())
+                                            child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                          ))
                                         : Text('Create Account',
                                             style: GoogleFonts.montserrat(
                                               fontWeight: FontWeight.w600,
@@ -327,5 +399,18 @@ class _SignUpState extends State<SignUp> {
             )),
       );
     });
+  }
+
+  var setup = Database();
+
+  saveInfo(var uid) async {
+    print(state);
+    await setup.storeUserData(
+        uid: uid,
+        userName: firstName.text.trim() + " " + surName.text.trim(),
+        phone: phone.text.trim(),
+        state: state!,
+        email: _email.text.trim(),
+        code: code.text.trim());
   }
 }

@@ -9,11 +9,11 @@ class Authentication {
   //check if user logged in or not
   Stream<User?> get authStateChange => _auth.authStateChanges();
 
-  Future<void> signInWithEmailAndPassword(String email, String password,
-      BuildContext context) async {
-    try{
+  Future<void> signInWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
+    try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       await showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -34,21 +34,23 @@ class Authentication {
   //sign up with email and Password
   Future<void> signUpWithEmailAndPassword(
       String email, String password, BuildContext context) async {
-    try{
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e){
+    try {
+      await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
       await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-              title: Text(Errors.show(e.code)),
-              content: Text(e.toString()),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                    child: const Text("OK"))
-              ]));
+                  title: Text(Errors.show(e.code)),
+                  content: Text(e.toString()),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: const Text("OK"))
+                  ]));
     } catch (e) {
       if (e == 'email-already-in-use') {
         print('Email already in use.');
@@ -59,22 +61,21 @@ class Authentication {
   }
 
   Future<void> resetPassword(String email, BuildContext context) async {
-    try{
+    try {
       await _auth.sendPasswordResetEmail(email: email);
-    }
-    on FirebaseAuthException catch (e){
+    } on FirebaseAuthException catch (e) {
       await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-              title: Text(Errors.show(e.code)),
-              content: Text(e.toString()),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                    child: const Text("OK"))
-              ]));
+                  title: Text(Errors.show(e.code)),
+                  content: Text(e.toString()),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: const Text("OK"))
+                  ]));
     } catch (e) {
       if (e == 'Email not registered') {
         print('Email not registered');
@@ -88,5 +89,4 @@ class Authentication {
   Future<void> signOut() async {
     await _auth.signOut();
   }
-
 }

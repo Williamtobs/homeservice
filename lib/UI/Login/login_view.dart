@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/Constants/validators.dart';
+import 'package:homeservice/Database/database.dart';
 import 'package:homeservice/Providers/auth_providers.dart';
 import 'package:homeservice/UI/Authentication/forgot_password.dart';
 import 'package:homeservice/UI/Shared/Formfield/textformfield_view.dart';
@@ -135,45 +136,6 @@ class _LoginState extends State<Login> {
                           width: MediaQuery.of(context).size.width,
                         ),
                       ),
-                      /*Align(
-                        alignment:Alignment.topCenter,
-                        child: Container(
-                          color: Colors.transparent,
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 15,),
-                              ListTile(
-                                tileColor: Colors.transparent,
-                                leading: GestureDetector(
-                                  onTap: (){
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Icon(
-                                      Icons.arrow_back_ios_outlined,
-                                      color: Color.fromRGBO(255, 255, 255, 1)
-                                  ),
-                                ),
-                                title: Text('Log in',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color.fromRGBO(255, 255, 255, 1),
-                                      fontSize: 17.0
-                                  ),),
-                                trailing: GestureDetector(
-                                  onTap: (){
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const OnboardingScreen2()));
-                                  },
-                                  child: const Icon(
-                                      Icons.clear_outlined,
-                                      color: Color.fromRGBO(255, 255, 255, 1)
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),*/
                       Positioned(
                         bottom: 0,
                         child: Container(

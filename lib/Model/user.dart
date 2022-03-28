@@ -1,21 +1,26 @@
-class User {
+class Users {
   String? uid;
   String? name;
   String? phone;
   String? state;
+  String? email;
+  String? code;
 
-  User({
-    required this.uid,
-    required this.name,
-    required this.phone,
-    required this.state,
-  });
+  Users(
+      {required this.uid,
+      required this.name,
+      required this.phone,
+      required this.state,
+      required this.email,
+      required this.code});
 
-  User.fromJson(Map<String, dynamic> json) {
+  Users.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
     name = json['name'];
     phone = json['phone'];
-    state = json['last_seen'];
+    state = json['state'];
+    email = json['email'];
+    code = json['code'];
   }
 
   Map<String, dynamic> toJson() {
@@ -23,8 +28,10 @@ class User {
 
     data['uid'] = uid;
     data['name'] = name;
-    data['presence'] = phone;
-    data['last_seen'] = state;
+    data['phone'] = phone;
+    data['state'] = state;
+    data['email'] = email;
+    data['code'] = code;
 
     return data;
   }
