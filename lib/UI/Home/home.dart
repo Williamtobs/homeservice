@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/Providers/auth_providers.dart';
 import 'package:homeservice/UI/Notification/notification_screen.dart';
 import 'package:homeservice/UI/Shared/Sidebar/side_bar.dart';
+import 'package:homeservice/UI/Shared/images.dart';
 
 import 'gridview.dart';
 
@@ -76,7 +77,7 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                         Positioned(
-                          top: 140,
+                          top: 100,
                           left: 0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,13 +102,17 @@ class HomeScreen extends ConsumerWidget {
                                             snapshot.data!.data()
                                                 as Map<String, dynamic>;
                                         name = data['name'];
-                                        print(name);
-                                        return Text('Hi, $name',
-                                            style: GoogleFonts.montserrat(
-                                                fontWeight: FontWeight.w700,
-                                                color: const Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                                fontSize: 28.0));
+                                        return Row(
+                                          children: [
+                                            Text('Hi, $name  ',
+                                                style: GoogleFonts.montserrat(
+                                                    fontWeight: FontWeight.w700,
+                                                    color: const Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                    fontSize: 28.0)),
+                                            Image.asset(smiling),
+                                          ],
+                                        );
                                       }),
                                 ),
                                 const SizedBox(height: 5),

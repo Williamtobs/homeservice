@@ -38,12 +38,17 @@ class SideBar extends ConsumerWidget {
           physics: const BouncingScrollPhysics(),
           child: Column(children: [
             const SizedBox(height: 10),
-            Row(children: const [
-              Icon(
-                Icons.arrow_back_outlined,
+            Row(children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back_outlined,
+                ),
               ),
-              Spacer(),
-              Icon(
+              const Spacer(),
+              const Icon(
                 Icons.border_color_outlined,
               ),
             ]),
