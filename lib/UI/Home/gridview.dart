@@ -15,7 +15,7 @@ class Gridview extends StatelessWidget {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       crossAxisCount: 3,
-      childAspectRatio: (1 / 1.2),
+      childAspectRatio: (2 / 2),
       crossAxisSpacing: 15,
       mainAxisSpacing: 15,
       physics: const BouncingScrollPhysics(),

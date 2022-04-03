@@ -139,7 +139,7 @@ class _SignUpState extends State<SignUp> {
                         child: Container(
                             padding: const EdgeInsets.only(
                                 top: 8, left: 20, right: 20, bottom: 10),
-                            height: MediaQuery.of(context).size.height * 0.80,
+                            height: MediaQuery.of(context).size.height * 0.88,
                             width: MediaQuery.of(context).size.width,
                             decoration: const BoxDecoration(
                                 color: Color.fromRGBO(255, 255, 255, 1),
@@ -171,13 +171,6 @@ class _SignUpState extends State<SignUp> {
                                           132, 132, 132, 1),
                                       fontSize: 17.0)),
                               const SizedBox(height: 5),
-                              Text('Your Name',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          const Color.fromRGBO(78, 78, 78, 1),
-                                      fontSize: 14.0)),
-                              const SizedBox(height: 5),
                               TextFormFieldWidget(
                                 hintText: "First Name",
                                 controller: firstName,
@@ -192,13 +185,6 @@ class _SignUpState extends State<SignUp> {
                                 validate: Validators().validateTextField,
                               ),
                               const SizedBox(height: 5),
-                              Text('Phone Number',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          const Color.fromRGBO(78, 78, 78, 1),
-                                      fontSize: 14.0)),
-                              const SizedBox(height: 5),
                               TextFormFieldWidget(
                                 hintText: "Your phone number",
                                 controller: phone,
@@ -206,25 +192,12 @@ class _SignUpState extends State<SignUp> {
                                 validate: Validators().validateTextField,
                               ),
                               const SizedBox(height: 5),
-                              Text('Email Address',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          const Color.fromRGBO(78, 78, 78, 1),
-                                      fontSize: 14.0)),
                               TextFormFieldWidget(
                                 hintText: "Your Email Address",
                                 textInputType: TextInputType.emailAddress,
                                 validate: Validators().validateEmail,
                                 controller: _email,
                               ),
-                              const SizedBox(height: 5),
-                              Text('Password',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          const Color.fromRGBO(78, 78, 78, 1),
-                                      fontSize: 14.0)),
                               const SizedBox(height: 5),
                               PasswordField(
                                 controller: _password,
@@ -259,7 +232,7 @@ class _SignUpState extends State<SignUp> {
                                       child: DropdownButton(
                                     borderRadius: BorderRadius.circular(15.0),
                                     hint: Text(
-                                      'States',
+                                      'State',
                                       style: GoogleFonts.montserrat(
                                         color: const Color.fromRGBO(
                                             132, 132, 132, 1),
@@ -296,11 +269,6 @@ class _SignUpState extends State<SignUp> {
                                             ))
                                         .toList(),
                                   ))),
-                              // SizedBox(
-                              //     height: 50.0,
-                              //     child: DropDownField(
-                              //       currentValue: state,
-                              //     )),
                               const SizedBox(height: 5),
                               TextFormFieldWidget(
                                 controller: code,
