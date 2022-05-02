@@ -86,9 +86,10 @@ class _LoginState extends State<Login> {
                 Navigator.of(context).pop();
               },
             ),
+            centerTitle: true,
             title: Text(
               'Login',
-              textAlign: TextAlign.center,
+              //textAlign: TextAlign.center,
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
                   color: const Color.fromRGBO(255, 255, 255, 1),

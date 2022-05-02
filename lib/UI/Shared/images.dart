@@ -25,3 +25,5 @@ const String utilities = "assets/Geography.png";
 const String ticket = "assets/ticket.png";
 const String stage = "assets/stage.png";
 const String check = "assets/check.png";
+const String clothes_bag = "assets/clothes_bag.jpg";
+const String duvets = "assets/duvets.png";

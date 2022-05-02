@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/UI/Shared/images.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../Constants/time.dart';
 import '../Shared/app_bar.dart';
 
 class BarbingScreen extends StatefulWidget {
@@ -29,6 +30,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
   String serviceMonth = '1 Month';
 
   String selectedDate = '';
+  String time = '';
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
                   height: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: Container(
                     //height: 263,
                     decoration: BoxDecoration(
@@ -236,319 +238,81 @@ class _BarbingScreenState extends State<BarbingScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Text('How often do you want you barb your hair?',
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text('Pick-up Time',
                       style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(0, 0, 0, 1),
-                          fontSize: 11.0)),
+                          fontSize: 16.0)),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Container(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: SizedBox(
+                    height: 30,
                     width: MediaQuery.of(context).size.width,
-                    height: 27,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromRGBO(255, 255, 255, 1)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              serviceTime = 'Once a Month';
-                            });
-                          },
-                          child: Container(
-                            height: 27,
-                            width: 107,
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: serviceTime == 'Once a Month'
+                    child: Center(
+                      child: ListView.builder(
+                        itemCount: times.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              selected(times[index]);
+                              print(times[index]);
+                            },
+                            child: Container(
+                              width: 80,
+                              height: 30,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: time == times[index]
                                     ? const Color.fromRGBO(31, 68, 141, 1)
-                                    : const Color.fromRGBO(255, 255, 255, 1)),
-                            child: Text('Once a Month',
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w500,
-                                    color: serviceTime == 'Once a Month'
-                                        ? const Color.fromRGBO(255, 255, 255, 1)
-                                        : const Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 8.0)),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              serviceTime = 'Twice a Month';
-                            });
-                          },
-                          child: Container(
-                            height: 27,
-                            width: 107,
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: serviceTime == 'Twice a Month'
-                                    ? const Color.fromRGBO(31, 68, 141, 1)
-                                    : const Color.fromRGBO(255, 255, 255, 1)),
-                            child: Text('Twice a Month',
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w500,
-                                    color: serviceTime == 'Twice a Month'
-                                        ? const Color.fromRGBO(255, 255, 255, 1)
-                                        : const Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 8.0)),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              serviceTime = 'Four Times a Month';
-                            });
-                          },
-                          child: Container(
-                            height: 27,
-                            width: 107,
-                            padding: const EdgeInsets.all(5),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: serviceTime == 'Four Times a Month'
-                                    ? const Color.fromRGBO(31, 68, 141, 1)
-                                    : const Color.fromRGBO(255, 255, 255, 1)),
-                            child: Text('Four Times a Month',
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w500,
-                                    color: serviceTime == 'Four Times a Month'
-                                        ? const Color.fromRGBO(255, 255, 255, 1)
-                                        : const Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 8.0)),
-                          ),
-                        )
-                      ],
+                                    : Colors.white,
+                              ),
+                              child: Text(times[index],
+                                  style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w500,
+                                      color: time == times[index]
+                                          ? Colors.white
+                                          : const Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 12.0)),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Text('How many months do you wish to barb?',
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text('Pick-up Date',
                       style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(0, 0, 0, 1),
-                          fontSize: 11.0)),
+                          fontSize: 16.0)),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 67,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromRGBO(255, 255, 255, 1)),
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                serviceMonth = '1 Month';
-                              });
-                            },
-                            child: Container(
-                              height: 27,
-                              width: 101,
-                              padding: const EdgeInsets.all(5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: serviceMonth == '1 Month'
-                                      ? const Color.fromRGBO(31, 68, 141, 1)
-                                      : const Color.fromRGBO(255, 255, 255, 1)),
-                              child: Text('1 Month',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      color: serviceMonth == '1 Month'
-                                          ? const Color.fromRGBO(
-                                              255, 255, 255, 1)
-                                          : const Color.fromRGBO(
-                                              135, 135, 135, 1),
-                                      fontSize: 10.0)),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                serviceMonth = '3 months';
-                              });
-                            },
-                            child: Container(
-                              height: 27,
-                              width: 101,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: serviceMonth == '3 months'
-                                      ? const Color.fromRGBO(31, 68, 141, 1)
-                                      : const Color.fromRGBO(255, 255, 255, 1)),
-                              child: Text('3 months',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      color: serviceMonth == '3 months'
-                                          ? const Color.fromRGBO(
-                                              255, 255, 255, 1)
-                                          : const Color.fromRGBO(
-                                              135, 135, 135, 1),
-                                      fontSize: 10.0)),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                serviceMonth = '6 months';
-                              });
-                            },
-                            child: Container(
-                              height: 27,
-                              width: 101,
-                              padding: const EdgeInsets.all(5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: serviceMonth == '6 months'
-                                      ? const Color.fromRGBO(31, 68, 141, 1)
-                                      : const Color.fromRGBO(255, 255, 255, 1)),
-                              child: Text('6 months',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      color: serviceMonth == '6 months'
-                                          ? const Color.fromRGBO(
-                                              255, 255, 255, 1)
-                                          : const Color.fromRGBO(
-                                              135, 135, 135, 1),
-                                      fontSize: 10.0)),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                serviceMonth = '9 months';
-                              });
-                            },
-                            child: Container(
-                              height: 27,
-                              width: 101,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: serviceMonth == '9 months'
-                                      ? const Color.fromRGBO(31, 68, 141, 1)
-                                      : const Color.fromRGBO(255, 255, 255, 1)),
-                              child: Text('9 months',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      color: serviceMonth == '9 months'
-                                          ? const Color.fromRGBO(
-                                              255, 255, 255, 1)
-                                          : const Color.fromRGBO(
-                                              135, 135, 135, 1),
-                                      fontSize: 10.0)),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                serviceMonth = '1 Year';
-                              });
-                            },
-                            child: Container(
-                              height: 27,
-                              width: 101,
-                              padding: const EdgeInsets.all(5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: serviceMonth == '1 Year'
-                                      ? const Color.fromRGBO(31, 68, 141, 1)
-                                      : const Color.fromRGBO(255, 255, 255, 1)),
-                              child: Text('1 Year',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      color: serviceMonth == '1 Year'
-                                          ? const Color.fromRGBO(
-                                              255, 255, 255, 1)
-                                          : const Color.fromRGBO(
-                                              135, 135, 135, 1),
-                                      fontSize: 10.0)),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                serviceMonth = '2 Years';
-                              });
-                            },
-                            child: Container(
-                              height: 27,
-                              width: 101,
-                              padding: const EdgeInsets.all(5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: serviceMonth == '2 Years'
-                                      ? const Color.fromRGBO(31, 68, 141, 1)
-                                      : const Color.fromRGBO(255, 255, 255, 1)),
-                              child: Text('2 Years',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      color: serviceMonth == '2 Years'
-                                          ? const Color.fromRGBO(
-                                              255, 255, 255, 1)
-                                          : const Color.fromRGBO(
-                                              135, 135, 135, 1),
-                                      fontSize: 10.0)),
-                            ),
-                          ),
-                        ],
-                      )
-                    ]),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10),
                   child: Container(
                     height: 250,
-                    color: Colors.white,
                     width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.white,
+                    ),
                     child: SfDateRangePicker(
+                      enablePastDates: false,
                       initialSelectedDate: DateTime.now(),
                       selectionMode: DateRangePickerSelectionMode.single,
                       onSelectionChanged: _onSelectionChanged,
@@ -562,7 +326,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 60,
+              height: 70,
               padding: const EdgeInsets.all(15),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -587,7 +351,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
                   const Spacer(),
                   Container(
                     width: 113,
-                    height: 36,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: const Color.fromRGBO(31, 68, 141, 1),
                       borderRadius: BorderRadius.circular(25),
@@ -598,7 +362,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
                             style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w500,
                                 color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 17.0))),
+                                fontSize: 14.0))),
                   ),
                 ],
               ),
@@ -629,6 +393,12 @@ class _BarbingScreenState extends State<BarbingScreen> {
         print(selectedDate);
       } else if (args.value is List<DateTime>) {
       } else {}
+    });
+  }
+
+  void selected(String time) {
+    setState(() {
+      this.time = time;
     });
   }
 }

@@ -2,8 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeservice/UI/Home/home.dart';
 
+import '../History/history_screen.dart';
+import '../Home/home.dart';
 import 'images.dart';
 
 class CustomNavigation extends StatefulWidget {
@@ -14,14 +15,14 @@ class CustomNavigation extends StatefulWidget {
 }
 
 class _CustomNavigationState extends State<CustomNavigation> {
-  int _index = 0;
+  int _index = 1;
 
   PageController? controller;
 
   @override
   void initState() {
     super.initState();
-    controller = PageController();
+    controller = PageController(initialPage: 1);
   }
 
   @override
@@ -47,19 +48,11 @@ class _CustomNavigationState extends State<CustomNavigation> {
       PageView(
         controller: controller,
         children: [
+          HistoryScreen(),
           HomeScreen(),
-          Center(
-            child: Text('Testing Screen, 1'),
-          ),
           Center(
             child: Text('Testing Screen, 2'),
           ),
-          Center(
-            child: Text('Testing Screen, 3'),
-          ),
-          Center(
-            child: Text('Testing Screen, 4'),
-          )
         ],
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
@@ -81,35 +74,11 @@ class _CustomNavigationState extends State<CustomNavigation> {
             ],
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               GestureDetector(
                 onTap: () {
-                  controller?.animateToPage(2,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.ease);
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.miscellaneous_services_outlined,
-                      color: Color.fromRGBO(132, 132, 132, 1),
-                      size: 28,
-                    ),
-                    const SizedBox(height: 5),
-                    Text('My Services',
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w600,
-                            color: const Color.fromRGBO(132, 132, 132, 1),
-                            fontSize: 10.0)),
-                    const SizedBox(height: 3),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  controller?.animateToPage(1,
+                  controller?.animateToPage(0,
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.ease);
                 },
@@ -119,14 +88,14 @@ class _CustomNavigationState extends State<CustomNavigation> {
                     const Icon(
                       Icons.history_outlined,
                       color: Color.fromRGBO(132, 132, 132, 1),
-                      size: 28,
+                      size: 30,
                     ),
                     const SizedBox(height: 5),
                     Text('History',
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w600,
                             color: const Color.fromRGBO(132, 132, 132, 1),
-                            fontSize: 10.0)),
+                            fontSize: 14.0)),
                     const SizedBox(height: 3),
                   ],
                 ),
@@ -143,31 +112,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
               ),
               GestureDetector(
                 onTap: () {
-                  controller?.animateToPage(3,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.ease);
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.mark_email_read,
-                      color: Color.fromRGBO(132, 132, 132, 1),
-                      size: 28,
-                    ),
-                    const SizedBox(height: 5),
-                    Text('Message',
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w600,
-                            color: const Color.fromRGBO(132, 132, 132, 1),
-                            fontSize: 10.0)),
-                    const SizedBox(height: 3),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  controller?.animateToPage(4,
+                  controller?.animateToPage(2,
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.ease);
                 },
@@ -177,14 +122,14 @@ class _CustomNavigationState extends State<CustomNavigation> {
                     const Icon(
                       Icons.chat_bubble_outlined,
                       color: Color.fromRGBO(132, 132, 132, 1),
-                      size: 28,
+                      size: 30,
                     ),
                     const SizedBox(height: 5),
                     Text('Chat',
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w600,
                             color: const Color.fromRGBO(132, 132, 132, 1),
-                            fontSize: 10.0)),
+                            fontSize: 14.0)),
                     const SizedBox(height: 3),
                   ],
                 ),
@@ -197,7 +142,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
           onTap: () {
-            controller?.animateToPage(0,
+            controller?.animateToPage(1,
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.ease);
           },
@@ -218,7 +163,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w600,
                         color: const Color.fromRGBO(132, 132, 132, 1),
-                        fontSize: 10.0)),
+                        fontSize: 14.0)),
               ),
             ],
           ),
