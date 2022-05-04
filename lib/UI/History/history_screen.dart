@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeservice/Constants/history_list.dart';
 
 import '../Notification/notification_screen.dart';
 import '../Shared/Sidebar/side_bar.dart';
+import 'order_summary.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -31,7 +33,22 @@ class HistoryScreen extends StatelessWidget {
         ],
       ),
       drawer: SideBar(),
-      body: Column(),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const OrderSummary(id: '')));
+            //OrderSummary
+          },
+          child: ListView(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              children: historyList.toList()),
+        ),
+      ),
     );
   }
 }

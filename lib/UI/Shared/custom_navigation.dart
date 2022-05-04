@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Chats/chat_whatsapp.dart';
 import '../History/history_screen.dart';
 import '../Home/home.dart';
 import 'images.dart';
@@ -50,9 +51,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
         children: [
           HistoryScreen(),
           HomeScreen(),
-          Center(
-            child: Text('Testing Screen, 2'),
-          ),
+          ChatWhatsapp(),
         ],
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
@@ -61,7 +60,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
         bottom: 0,
         child: Container(
           padding:
-              const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+              const EdgeInsets.only(top: 8, bottom: 8, left: 20, right: 20),
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -85,17 +84,17 @@ class _CustomNavigationState extends State<CustomNavigation> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.history_outlined,
                       color: Color.fromRGBO(132, 132, 132, 1),
-                      size: 30,
+                      size: 24,
                     ),
                     const SizedBox(height: 5),
                     Text('History',
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w600,
                             color: const Color.fromRGBO(132, 132, 132, 1),
-                            fontSize: 14.0)),
+                            fontSize: 12.0)),
                     const SizedBox(height: 3),
                   ],
                 ),
@@ -113,23 +112,23 @@ class _CustomNavigationState extends State<CustomNavigation> {
               GestureDetector(
                 onTap: () {
                   controller?.animateToPage(2,
-                      duration: const Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 100),
                       curve: Curves.ease);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.chat_bubble_outlined,
                       color: Color.fromRGBO(132, 132, 132, 1),
-                      size: 30,
+                      size: 24,
                     ),
                     const SizedBox(height: 5),
                     Text('Chat',
                         style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w600,
                             color: const Color.fromRGBO(132, 132, 132, 1),
-                            fontSize: 14.0)),
+                            fontSize: 12.0)),
                     const SizedBox(height: 3),
                   ],
                 ),
@@ -150,7 +149,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                width: 80,
+                width: 60,
                 padding: const EdgeInsets.all(4),
                 decoration: const BoxDecoration(
                     color: Colors.white, shape: BoxShape.circle),
@@ -163,7 +162,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w600,
                         color: const Color.fromRGBO(132, 132, 132, 1),
-                        fontSize: 14.0)),
+                        fontSize: 12.0)),
               ),
             ],
           ),

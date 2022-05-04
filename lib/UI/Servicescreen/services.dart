@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/UI/Shared/app_bar.dart';
-import 'package:homeservice/UI/Shared/images.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../Constants/time.dart';
+import '../ReviewService/finalize_services.dart';
 
 class BookService extends StatefulWidget {
   final String name;
@@ -51,78 +51,62 @@ class _BookServiceState extends State<BookService> {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(AppBar().preferredSize.height + 5),
+          preferredSize: Size.fromHeight(AppBar().preferredSize.height),
           child: Appbar(
             notification: widget.name,
           )),
       body: Stack(
         children: [
           SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //const SizedBox(height: 20),
                 Padding(
                   padding:
                       const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
                   child: Container(
-                    height: 150,
-                    padding: const EdgeInsets.all(10),
+                    //height: 120,
+                    padding: const EdgeInsets.all(20),
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                         color: Color.fromRGBO(255, 255, 255, 1),
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     child: Row(children: [
-                      Container(
-                        decoration: const BoxDecoration(shape: BoxShape.circle),
-                        child: ClipRRect(
-                            child: Image.asset(clothes_bag, fit: BoxFit.fill)),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Text('Cloth Basket - 10,000',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      color:
-                                          const Color.fromRGBO(31, 68, 141, 1),
-                                      fontSize: 16.0)),
-                              //Icon(icon)
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Tooltip(
-                                  message:
-                                      'Cloth must not be more than 30 pieces per bag. Wash, '
-                                      'starch and Iron.',
-                                  triggerMode: TooltipTriggerMode.tap,
-                                  child: Icon(
-                                    Icons.error_outline_outlined,
-                                    size: 20,
-                                    color: Color.fromRGBO(31, 68, 141, 1),
-                                  ))
-                            ],
-                          ),
+                          Text('Cloth Basket - 10,000',
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(31, 68, 141, 1),
+                                  fontSize: 16.0)),
                           const SizedBox(
                             height: 5,
                           ),
                           SizedBox(
-                            width: 250,
-                            child: Text(
-                                'Clothing includes shirt, blouse, '
-                                'trouser, skirt, underwear and all light weight materials only',
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 14.0)),
-                          )
+                              width: MediaQuery.of(context).size.width * 0.60,
+                              child: RichText(
+                                text: TextSpan(
+                                    text:
+                                        '(Cloth must not be more than 30 pieces per bag. Wash, '
+                                        'starch and Iron.)\n',
+                                    style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w400,
+                                        color: const Color.fromRGBO(0, 0, 0, 1),
+                                        fontSize: 12.0),
+                                    children: [
+                                      TextSpan(
+                                          text:
+                                              'Clothing includes shirt, blouse, '
+                                              'trouser, skirt, underwear and all light weight materials only',
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color.fromRGBO(
+                                                  0, 0, 0, 1),
+                                              fontSize: 12.0))
+                                    ]),
+                              ))
                         ],
                       ),
                       const Spacer(),
@@ -174,62 +158,59 @@ class _BookServiceState extends State<BookService> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  padding: const EdgeInsets.only(
+                    left: 10.0,
+                    right: 10.0,
+                  ),
                   child: Container(
-                    height: 150,
-                    padding: const EdgeInsets.all(10),
+                    //height: 120,
+                    padding: const EdgeInsets.all(20),
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                         color: Color.fromRGBO(255, 255, 255, 1),
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     child: Row(children: [
-                      Container(
-                        decoration: const BoxDecoration(shape: BoxShape.circle),
-                        child: ClipRRect(
-                            child: Image.asset(duvets, fit: BoxFit.fill)),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Text('Other - 1,000',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      color:
-                                          const Color.fromRGBO(31, 68, 141, 1),
-                                      fontSize: 16.0)),
-                              //Icon(icon)
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Tooltip(
-                                  message:
-                                      'Each of this or any other heavy weight material costs 1,000 naira each.',
-                                  triggerMode: TooltipTriggerMode.tap,
-                                  child: Icon(
-                                    Icons.error_outline_outlined,
-                                    size: 20,
-                                    color: Color.fromRGBO(31, 68, 141, 1),
-                                  ))
-                            ],
-                          ),
+                          Text('Other - 1,000',
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(31, 68, 141, 1),
+                                  fontSize: 16.0)),
                           const SizedBox(
                             height: 5,
                           ),
                           SizedBox(
-                            width: 250,
-                            child: Text(
-                                'Agbada, Suit, Towel, Duvet or Bedsheets',
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 14.0)),
-                          )
+                              width: MediaQuery.of(context).size.width * 0.60,
+                              child: RichText(
+                                text: TextSpan(
+                                    text:
+                                        '(Each of this or any other heavy weight material costs 1,000 naira each.)\n',
+                                    style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w400,
+                                        color: const Color.fromRGBO(0, 0, 0, 1),
+                                        fontSize: 12.0),
+                                    children: [
+                                      TextSpan(
+                                          text:
+                                              'Agbada, Suit, Towel, Duvet or Bedsheets',
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color.fromRGBO(
+                                                  0, 0, 0, 1),
+                                              fontSize: 12.0))
+                                    ]),
+                              )
+                              // Text(
+                              //     '(Each of this or any other heavy weight material costs 1,000 naira each.)\n'
+                              //     'Agbada, Suit, Towel, Duvet or Bedsheets',
+                              //     style: GoogleFonts.montserrat(
+                              //         fontWeight: FontWeight.w400,
+                              //         color: const Color.fromRGBO(0, 0, 0, 1),
+                              //         fontSize: 14.0)),
+                              )
                         ],
                       ),
                       const Spacer(),
@@ -278,6 +259,34 @@ class _BookServiceState extends State<BookService> {
                         ),
                       )
                     ]),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text('Pick-up Date',
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromRGBO(0, 0, 0, 1),
+                          fontSize: 16.0)),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10),
+                  child: Container(
+                    height: 250,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.white,
+                    ),
+                    child: SfDateRangePicker(
+                      enablePastDates: false,
+                      minDate: DateTime.now(),
+                      initialSelectedDate: DateTime.now(),
+                      selectionMode: DateRangePickerSelectionMode.single,
+                      onSelectionChanged: _onSelectionChanged,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -335,42 +344,16 @@ class _BookServiceState extends State<BookService> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text('Pick-up Date',
-                      style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromRGBO(0, 0, 0, 1),
-                          fontSize: 16.0)),
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10),
-                  child: Container(
-                    height: 250,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.white,
-                    ),
-                    child: SfDateRangePicker(
-                      enablePastDates: false,
-                      initialSelectedDate: DateTime.now(),
-                      selectionMode: DateRangePickerSelectionMode.single,
-                      onSelectionChanged: _onSelectionChanged,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30)
+                const SizedBox(height: 60, child: Text(' ')),
               ],
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 70,
-              padding: const EdgeInsets.all(15),
+              //height: 55,
+              padding:
+                  const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -400,12 +383,28 @@ class _BookServiceState extends State<BookService> {
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FinalizeServices(
+                                        services:
+                                            '$basketNum Cloth(es) Basket\n $otherNum Others',
+                                        address: 'UI, Ibadan',
+                                        number: '08146859553',
+                                        amount: '$price',
+                                        date:
+                                            '${selectedDate.characters.take(10)}' +
+                                                " " +
+                                                time,
+                                        serviceType: widget.name,
+                                      )));
+                        },
                         child: Text('Pay',
                             style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w500,
                                 color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 14.0))),
+                                fontSize: 12.0))),
                   ),
                 ],
               ),

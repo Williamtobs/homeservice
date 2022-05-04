@@ -6,6 +6,8 @@ import 'package:homeservice/UI/Shared/images.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../Constants/time.dart';
+import '../Address/add_address_screen.dart';
+import '../ReviewService/finalize_services.dart';
 import '../Shared/app_bar.dart';
 
 class BarbingScreen extends StatefulWidget {
@@ -237,16 +239,44 @@ class _BarbingScreenState extends State<BarbingScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text('Date',
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromRGBO(0, 0, 0, 1),
+                          fontSize: 18.0)),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10),
+                  child: Container(
+                    height: 250,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.white,
+                    ),
+                    child: SfDateRangePicker(
+                      enablePastDates: false,
+                      minDate: DateTime.now(),
+                      initialSelectedDate: DateTime.now(),
+                      selectionMode: DateRangePickerSelectionMode.single,
+                      onSelectionChanged: _onSelectionChanged,
+                    ),
+                  ),
+                ),
                 const SizedBox(
                   height: 10,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
-                  child: Text('Pick-up Time',
+                  child: Text('Time',
                       style: GoogleFonts.montserrat(
                           fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(0, 0, 0, 1),
-                          fontSize: 16.0)),
+                          fontSize: 18.0)),
                 ),
                 const SizedBox(
                   height: 10,
@@ -283,39 +313,13 @@ class _BarbingScreenState extends State<BarbingScreen> {
                                       fontWeight: FontWeight.w500,
                                       color: time == times[index]
                                           ? Colors.white
-                                          : const Color.fromRGBO(0, 0, 0, 1),
+                                          : const Color.fromARGB(
+                                              255, 49, 13, 13),
                                       fontSize: 12.0)),
                             ),
                           );
                         },
                       ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text('Pick-up Date',
-                      style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromRGBO(0, 0, 0, 1),
-                          fontSize: 16.0)),
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10),
-                  child: Container(
-                    height: 250,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.white,
-                    ),
-                    child: SfDateRangePicker(
-                      enablePastDates: false,
-                      initialSelectedDate: DateTime.now(),
-                      selectionMode: DateRangePickerSelectionMode.single,
-                      onSelectionChanged: _onSelectionChanged,
                     ),
                   ),
                 ),
@@ -326,8 +330,9 @@ class _BarbingScreenState extends State<BarbingScreen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 70,
-              padding: const EdgeInsets.all(15),
+              //height: 70,
+              padding:
+                  const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -357,12 +362,27 @@ class _BarbingScreenState extends State<BarbingScreen> {
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FinalizeServices(
+                                        services: '$service',
+                                        address: 'UI, Ibadan',
+                                        number: '08146859553',
+                                        amount: serviceAmount,
+                                        date:
+                                            '${selectedDate.characters.take(10)}' +
+                                                " " +
+                                                time,
+                                        serviceType: widget.name,
+                                      )));
+                        },
                         child: Text('Pay',
                             style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w500,
                                 color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 14.0))),
+                                fontSize: 12.0))),
                   ),
                 ],
               ),
@@ -374,18 +394,6 @@ class _BarbingScreenState extends State<BarbingScreen> {
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    /// The argument value will return the changed date as [DateTime] when the
-    /// widget [SfDateRangeSelectionMode] set as single.
-    ///
-    /// The argument value will return the changed dates as [List<DateTime>]
-    /// when the widget [SfDateRangeSelectionMode] set as multiple.
-    ///
-    /// The argument value will return the changed range as [PickerDateRange]
-    /// when the widget [SfDateRangeSelectionMode] set as range.
-    ///
-    /// The argument value will return the changed ranges as
-    /// [List<PickerDateRange] when the widget [SfDateRangeSelectionMode] set as
-    /// multi range.
     setState(() {
       if (args.value is PickerDateRange) {
       } else if (args.value is DateTime) {

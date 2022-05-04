@@ -44,8 +44,8 @@ class Gridview extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 52,
-                        width: 49,
+                        height: 55,
+                        width: 53,
                         alignment: Alignment.center,
                         decoration: const BoxDecoration(
                           color: Color.fromRGBO(31, 68, 141, 1),
@@ -53,15 +53,15 @@ class Gridview extends StatelessWidget {
                         ),
                         child: Image.asset(
                           data.icon!,
-                          height: 32,
-                          width: 32,
+                          height: 35,
+                          width: 35,
                         ),
                       ),
                       Text(data.name!,
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w600,
                               color: const Color.fromRGBO(0, 0, 0, 1),
-                              fontSize: 11.0))
+                              fontSize: 12.0))
                     ],
                   ),
                 ),

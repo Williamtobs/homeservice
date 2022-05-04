@@ -26,7 +26,7 @@ class Appbar extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
               color: const Color.fromRGBO(0, 0, 0, 1),
-              fontSize: 29.0)),
+              fontSize: 24.0)),
     );
   }
 }

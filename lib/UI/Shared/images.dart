@@ -27,3 +27,4 @@ const String stage = "assets/stage.png";
 const String check = "assets/check.png";
 const String clothes_bag = "assets/clothes_bag.jpg";
 const String duvets = "assets/duvets.png";
+const String map = 'assets/map_style.json';
