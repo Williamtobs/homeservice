@@ -11,7 +11,7 @@ class Appbar extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       backgroundColor: const Color.fromRGBO(254, 254, 254, 1),
-      elevation: 1,
+      elevation: 0,
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back_ios_new_outlined,
@@ -26,7 +26,7 @@ class Appbar extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
               color: const Color.fromRGBO(0, 0, 0, 1),
-              fontSize: 29.0)),
+              fontSize: 24.0)),
     );
   }
 }
