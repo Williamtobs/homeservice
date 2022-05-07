@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/Providers/auth_providers.dart';
+import 'package:homeservice/UI/Shared/Sidebar/options/about_us.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
 
+import '../../Profile/edit_profile_screen.dart';
 import '../images.dart';
+import 'options/refer.dart';
+import 'options/support.dart';
 
 class SideBar extends ConsumerWidget {
   SideBar({Key? key}) : super(key: key);
@@ -48,8 +52,15 @@ class SideBar extends ConsumerWidget {
                 ),
               ),
               const Spacer(),
-              const Icon(
-                Icons.border_color_outlined,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => EditProfile()));
+                  //EditProfile
+                },
+                child: const Icon(
+                  Icons.border_color_outlined,
+                ),
               ),
             ]),
             const SizedBox(height: 20),
@@ -59,7 +70,13 @@ class SideBar extends ConsumerWidget {
                   width: 80,
                   height: 80,
                   child: CircleAvatar(
-                    child: Image.asset(avatar),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(360),
+                      child: Image.asset(
+                        avatar,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -173,30 +190,42 @@ class SideBar extends ConsumerWidget {
                   )),
             ),
             const SizedBox(height: 5),
-            ListTile(
-              leading: const Icon(
-                Icons.attach_money_outlined,
-                color: Color.fromRGBO(31, 68, 141, 1),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ReferAndEarn()));
+              },
+              child: ListTile(
+                leading: const Icon(
+                  Icons.attach_money_outlined,
+                  color: Color.fromRGBO(31, 68, 141, 1),
+                ),
+                title: Text('Refer and Earn',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                      color: const Color.fromRGBO(0, 0, 0, 1),
+                      fontSize: 18.0,
+                    )),
               ),
-              title: Text('Refer and Earn',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromRGBO(0, 0, 0, 1),
-                    fontSize: 18.0,
-                  )),
             ),
             const SizedBox(height: 5),
-            ListTile(
-              leading: const Icon(
-                Icons.contact_support,
-                color: Color.fromRGBO(31, 68, 141, 1),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const SupportUs()));
+              },
+              child: ListTile(
+                leading: const Icon(
+                  Icons.contact_support,
+                  color: Color.fromRGBO(31, 68, 141, 1),
+                ),
+                title: Text('Support',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                      color: const Color.fromRGBO(0, 0, 0, 1),
+                      fontSize: 18.0,
+                    )),
               ),
-              title: Text('Support',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromRGBO(0, 0, 0, 1),
-                    fontSize: 18.0,
-                  )),
             ),
             const SizedBox(height: 5),
             ListTile(
@@ -212,17 +241,23 @@ class SideBar extends ConsumerWidget {
                   )),
             ),
             const SizedBox(height: 5),
-            ListTile(
-              leading: const Icon(
-                Icons.error,
-                color: Color.fromRGBO(31, 68, 141, 1),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const AboutUs()));
+              },
+              child: ListTile(
+                leading: const Icon(
+                  Icons.error,
+                  color: Color.fromRGBO(31, 68, 141, 1),
+                ),
+                title: Text('About Us',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                      color: const Color.fromRGBO(0, 0, 0, 1),
+                      fontSize: 18.0,
+                    )),
               ),
-              title: Text('About Us',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromRGBO(0, 0, 0, 1),
-                    fontSize: 18.0,
-                  )),
             ),
             const SizedBox(height: 5),
             InkWell(

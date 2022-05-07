@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../Shared/app_bar.dart';
-import 'change_address.dart';
 
-class FinalizeServices extends StatelessWidget {
+class TrainBookedSummary extends StatelessWidget {
   final String serviceType;
-  final String address;
-  final String number;
+  final String station;
+  final String type;
   final String date;
   final String amount;
   final String services;
-  const FinalizeServices(
+  const TrainBookedSummary(
       {Key? key,
-      required this.address,
-      required this.number,
       required this.date,
       required this.amount,
       required this.serviceType,
-      required this.services})
+      required this.services,
+      required this.station,
+      required this.type})
       : super(key: key);
 
   @override
@@ -28,7 +27,7 @@ class FinalizeServices extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(AppBar().preferredSize.height + 5),
           child: const Appbar(
-            notification: 'Service Checkout',
+            notification: 'Ticket Checkout',
           )),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -44,7 +43,7 @@ class FinalizeServices extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Service Type',
+                        Text('Train Ticket Type',
                             style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w500,
                                 color: const Color.fromRGBO(31, 68, 141, 1),
@@ -66,7 +65,7 @@ class FinalizeServices extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Text('Service Details',
+                        Text('Ticket Details',
                             style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w500,
                                 color: const Color.fromRGBO(31, 68, 141, 1),
@@ -76,13 +75,13 @@ class FinalizeServices extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text('Address',
+                            Text('Station',
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w500,
                                     color: const Color.fromRGBO(0, 0, 0, 1),
                                     fontSize: 14.0)),
                             const Spacer(),
-                            Text(address,
+                            Text(station,
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w400,
                                     color: const Color.fromRGBO(0, 0, 0, 1),
@@ -90,18 +89,6 @@ class FinalizeServices extends StatelessWidget {
                             // const SizedBox(
                             //   width: 2,
                             // ),
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ChangeAddress(
-                                              address: address,
-                                            )),
-                                  );
-                                  //ChangeAddress
-                                },
-                                icon: Icon(Icons.arrow_forward_ios))
                           ],
                         ),
                         const SizedBox(
@@ -113,13 +100,13 @@ class FinalizeServices extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text('Phone Number',
+                            Text('Type',
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w500,
                                     color: const Color.fromRGBO(0, 0, 0, 1),
                                     fontSize: 14.0)),
                             const Spacer(),
-                            Text(number,
+                            Text(type,
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w400,
                                     color: const Color.fromRGBO(0, 0, 0, 1),
@@ -182,6 +169,29 @@ class FinalizeServices extends StatelessWidget {
                           ),
                           Row(
                             children: [
+                              Text('Services',
+                                  style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 14.0)),
+                              const Spacer(),
+                              Text(services,
+                                  textAlign: TextAlign.end,
+                                  style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 12.0)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const Divider(),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
                               Text('Amount',
                                   style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
@@ -204,19 +214,25 @@ class FinalizeServices extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Text('Services',
+                              Text('Service Charge',
                                   style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       color: const Color.fromRGBO(0, 0, 0, 1),
                                       fontSize: 14.0)),
                               const Spacer(),
-                              Text(services,
-                                  textAlign: TextAlign.end,
+                              Text('500',
                                   style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w400,
                                       color: const Color.fromRGBO(0, 0, 0, 1),
                                       fontSize: 12.0)),
                             ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const Divider(),
+                          const SizedBox(
+                            height: 5,
                           ),
                         ]),
                   ),

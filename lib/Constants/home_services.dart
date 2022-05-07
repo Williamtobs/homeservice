@@ -6,7 +6,7 @@ final homeService = [
   ServiceInfo(name: 'Laundry', icon: laundry),
   // ServiceInfo(name: 'Home Cleaning', icon: sweeping),
   // ServiceInfo(name: 'Soup/Stew', icon: soup),
-  ServiceInfo(name: 'Tickets', icon: ticket),
+  ServiceInfo(name: 'Train Tickets', icon: ticket),
   // ServiceInfo(name: 'Drinks', icon: drink),
   // ServiceInfo(name: 'Spa', icon: spa),
   // ServiceInfo(name: 'Utilities', icon: utilities),

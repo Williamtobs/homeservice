@@ -5,6 +5,7 @@ import 'package:homeservice/Constants/history_list.dart';
 import '../Notification/notification_screen.dart';
 import '../Shared/Sidebar/side_bar.dart';
 import 'order_summary.dart';
+import 'widget/history_card.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -35,18 +36,26 @@ class HistoryScreen extends StatelessWidget {
       drawer: SideBar(),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const OrderSummary(id: '')));
-            //OrderSummary
-          },
-          child: ListView(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              children: historyList.toList()),
+        child: ListView.builder(
+          itemBuilder: ((context, index) {
+            var items = historyList;
+            return GestureDetector(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => OrderSummary(
+                            id: items[index].id,
+                          ))),
+              child: HistoryCard(
+                amount: items[index].amount,
+                id: items[index].id,
+                orderType: items[index].orderType,
+                scheduledDate: items[index].scheduledDate,
+                scheduledTime: items[index].scheduledTime,
+              ),
+            );
+          }),
+          itemCount: historyList.length,
         ),
       ),
     );

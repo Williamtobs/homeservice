@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/UI/Shared/images.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../Constants/time.dart';
-import '../Address/add_address_screen.dart';
 import '../ReviewService/finalize_services.dart';
 import '../Shared/app_bar.dart';
 
@@ -46,9 +46,8 @@ class _BarbingScreenState extends State<BarbingScreen> {
       body: Stack(
         children: [
           SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
                   height: 20,
@@ -144,8 +143,8 @@ class _BarbingScreenState extends State<BarbingScreen> {
                                     )
                                   : Image.asset(
                                       check,
-                                      width: 42,
-                                      height: 42,
+                                      width: 38,
+                                      height: 38,
                                     ),
                             ],
                           ),
@@ -229,8 +228,8 @@ class _BarbingScreenState extends State<BarbingScreen> {
                                     )
                                   : Image.asset(
                                       check,
-                                      width: 42,
-                                      height: 42,
+                                      width: 38,
+                                      height: 38,
                                     ),
                             ],
                           ),
@@ -397,7 +396,8 @@ class _BarbingScreenState extends State<BarbingScreen> {
     setState(() {
       if (args.value is PickerDateRange) {
       } else if (args.value is DateTime) {
-        selectedDate = args.value.toString();
+        DateFormat formatter = DateFormat('dd-MM-yyyy');
+        selectedDate = formatter.format(args.value);
         print(selectedDate);
       } else if (args.value is List<DateTime>) {
       } else {}

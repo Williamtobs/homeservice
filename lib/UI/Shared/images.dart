@@ -28,3 +28,6 @@ const String check = "assets/check.png";
 const String clothes_bag = "assets/clothes_bag.jpg";
 const String duvets = "assets/duvets.png";
 const String map = 'assets/map_style.json';
+const String aboutUs = 'assets/about_us.jpg';
+const String support = 'assets/support.jpg';
+const String gift = 'assets/gift_app.png';
