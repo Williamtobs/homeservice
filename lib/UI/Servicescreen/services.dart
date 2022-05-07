@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/UI/Shared/app_bar.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../Constants/time.dart';
@@ -202,15 +203,7 @@ class _BookServiceState extends State<BookService> {
                                                   0, 0, 0, 1),
                                               fontSize: 12.0))
                                     ]),
-                              )
-                              // Text(
-                              //     '(Each of this or any other heavy weight material costs 1,000 naira each.)\n'
-                              //     'Agbada, Suit, Towel, Duvet or Bedsheets',
-                              //     style: GoogleFonts.montserrat(
-                              //         fontWeight: FontWeight.w400,
-                              //         color: const Color.fromRGBO(0, 0, 0, 1),
-                              //         fontSize: 14.0)),
-                              )
+                              ))
                         ],
                       ),
                       const Spacer(),
@@ -419,7 +412,8 @@ class _BookServiceState extends State<BookService> {
     setState(() {
       if (args.value is PickerDateRange) {
       } else if (args.value is DateTime) {
-        selectedDate = args.value.toString();
+        DateFormat formatter = DateFormat('dd-MM-yyyy');
+        selectedDate = formatter.format(args.value);
         print(selectedDate);
       } else if (args.value is List<DateTime>) {
       } else {}

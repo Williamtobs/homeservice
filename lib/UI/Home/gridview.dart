@@ -5,6 +5,7 @@ import 'package:homeservice/UI/BarbingScreen/barbing_screen.dart';
 import 'package:homeservice/UI/Ticketscreen/select_ticket.dart';
 
 import '../Servicescreen/services.dart';
+import '../Ticketscreen/train_ticket.dart';
 
 class Gridview extends StatelessWidget {
   const Gridview({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class Gridview extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => data.name! == 'Tickets'
+                          builder: (context) => data.name! == 'Train Tickets'
                               ? SelectTicket(
                                   name: data.name!,
                                 )
@@ -51,10 +52,15 @@ class Gridview extends StatelessWidget {
                           color: Color.fromRGBO(31, 68, 141, 1),
                           shape: BoxShape.circle,
                         ),
-                        child: Image.asset(
-                          data.icon!,
-                          height: 35,
-                          width: 35,
+                        child: ColorFiltered(
+                          colorFilter: const ColorFilter.mode(
+                              Color.fromARGB(255, 245, 246, 247),
+                              BlendMode.srcATop),
+                          child: Image.asset(
+                            data.icon!,
+                            height: 35,
+                            width: 35,
+                          ),
                         ),
                       ),
                       Text(data.name!,
