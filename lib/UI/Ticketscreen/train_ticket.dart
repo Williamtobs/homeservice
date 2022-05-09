@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../ReviewService/finalize_services.dart';
 import '../Shared/app_bar.dart';
 import '../Shared/images.dart';
+import '../Shared/snackbar.dart';
 import 'controller/train_ticket_controller.dart';
 import 'receipt_screen.dart';
 
@@ -36,7 +38,7 @@ class _TrainTicketState extends State<TrainTicket> {
 
         return Stack(
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
@@ -44,17 +46,16 @@ class _TrainTicketState extends State<TrainTicket> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                       child: Container(
-                        //height: 263,
                         decoration: BoxDecoration(
                             color: const Color.fromRGBO(255, 255, 255, 1),
                             borderRadius: BorderRadius.circular(35)),
                         child: Padding(
-                          padding: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -71,7 +72,7 @@ class _TrainTicketState extends State<TrainTicket> {
                                                   0, 0, 0, 1),
                                               fontSize: 14.0)),
                                       const SizedBox(
-                                        height: 5,
+                                        height: 3,
                                       ),
                                       Text(controller.economyAmount,
                                           style: GoogleFonts.montserrat(
@@ -96,10 +97,6 @@ class _TrainTicketState extends State<TrainTicket> {
                                                 controller.economyChecked(
                                                     'Economy class',
                                                     controller.economyAmount);
-                                                // setState(() {
-                                                //   service = 'Hair Cut';
-                                                //   serviceAmount = hairAmount!;
-                                                // });
                                               },
                                               child: Text('Select',
                                                   style: GoogleFonts.montserrat(
@@ -118,12 +115,12 @@ class _TrainTicketState extends State<TrainTicket> {
                                 ],
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               const Divider(
                                   color: Color.fromRGBO(200, 200, 200, 1)),
                               const SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               Row(
                                 children: [
@@ -138,7 +135,7 @@ class _TrainTicketState extends State<TrainTicket> {
                                                   0, 0, 0, 1),
                                               fontSize: 14.0)),
                                       const SizedBox(
-                                        height: 5,
+                                        height: 3,
                                       ),
                                       Text(controller.businessAmount,
                                           style: GoogleFonts.montserrat(
@@ -181,12 +178,12 @@ class _TrainTicketState extends State<TrainTicket> {
                                 ],
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               const Divider(
                                   color: Color.fromRGBO(200, 200, 200, 1)),
                               const SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               Row(
                                 children: [
@@ -201,7 +198,7 @@ class _TrainTicketState extends State<TrainTicket> {
                                                   0, 0, 0, 1),
                                               fontSize: 14.0)),
                                       const SizedBox(
-                                        height: 5,
+                                        height: 3,
                                       ),
                                       Text(controller.upperBusiness,
                                           style: GoogleFonts.montserrat(
@@ -245,12 +242,12 @@ class _TrainTicketState extends State<TrainTicket> {
                                 ],
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               const Divider(
                                   color: Color.fromRGBO(200, 200, 200, 1)),
                               const SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               Row(
                                 children: [
@@ -265,7 +262,7 @@ class _TrainTicketState extends State<TrainTicket> {
                                                   0, 0, 0, 1),
                                               fontSize: 14.0)),
                                       const SizedBox(
-                                        height: 5,
+                                        height: 3,
                                       ),
                                       Text(controller.vip,
                                           style: GoogleFonts.montserrat(
@@ -322,155 +319,123 @@ class _TrainTicketState extends State<TrainTicket> {
                     const SizedBox(
                       height: 5,
                     ),
-                    Container(
+                    SizedBox(
                       height: 100,
                       width: MediaQuery.of(context).size.width,
-                      child: widget.name == 'Lagos'
-                          ? ListView(
-                              children:
-                                  controller.lagosValues.keys.map((String key) {
-                              return CheckboxListTile(
-                                  contentPadding: const EdgeInsets.all(0),
-                                  side: const BorderSide(
-                                      color: Color.fromRGBO(31, 68, 141, 1),
-                                      width: 2),
-                                  value: controller.lagosValues[key],
-                                  activeColor:
-                                      const Color.fromRGBO(31, 68, 141, 1),
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  title: Text(key,
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black,
-                                          fontSize: 14.0)),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      controller.lagosValues[key] = value!;
-                                      if (controller.lagosValues[key] == true) {
-                                        controller.trainStation = key;
-                                        if (controller.trainStation ==
-                                            controller.lagosValues.keys
-                                                .elementAt(0)) {
-                                          var ke = controller.lagosValues.keys
-                                              .elementAt(1);
-                                          controller.lagosValues[ke] = false;
-                                          // ke = false;
-                                        } else if (controller.trainStation ==
-                                            controller.lagosValues.keys
-                                                .elementAt(1)) {
-                                          var ke = controller.lagosValues.keys
-                                              .elementAt(0);
-                                          controller.lagosValues[ke] = false;
-                                        }
-                                        print(controller.trainStation);
-                                      }
-                                    });
-                                  });
-                            }).toList())
-                          : ListView(
-                              children: controller.ibadanValues.keys
-                                  .map((String key) {
-                              return CheckboxListTile(
-                                  contentPadding: const EdgeInsets.all(0),
-                                  side: const BorderSide(
-                                      color: Color.fromRGBO(31, 68, 141, 1),
-                                      width: 2),
-                                  value: controller.ibadanValues[key],
-                                  activeColor:
-                                      const Color.fromRGBO(31, 68, 141, 1),
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  title: Text(key,
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black,
-                                          fontSize: 14.0)),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      controller.ibadanValues[key] = value!;
-                                      // if (controller.ibadanValues[key] ==
-                                      //     value) {
-                                      //   String val = controller.ibadanValues.values
-                                      //       .elementAt(1);
-                                      // }
-                                      if (controller.ibadanValues[key] ==
-                                          true) {
-                                        controller.trainStation = key;
-                                        if (controller.trainStation ==
-                                            controller.ibadanValues.keys
-                                                .elementAt(0)) {
-                                          var ke = controller.ibadanValues.keys
-                                              .elementAt(1);
-                                          controller.ibadanValues[ke] = false;
-                                          // ke = false;
-                                        } else if (controller.trainStation ==
-                                            controller.ibadanValues.keys
-                                                .elementAt(1)) {
-                                          var ke = controller.ibadanValues.keys
-                                              .elementAt(0);
-                                          controller.ibadanValues[ke] = false;
-                                        }
-                                        print(controller.trainStation);
-                                      }
-                                    });
-                                  });
-                            }).toList()),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: widget.name == 'Lagos'
+                            ? ListView(
+                                padding: const EdgeInsets.all(0),
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: controller.lagosValues.keys
+                                    .map((String key) {
+                                  return CheckboxListTile(
+                                      contentPadding: const EdgeInsets.all(0),
+                                      side: const BorderSide(
+                                          color: Color.fromRGBO(31, 68, 141, 1),
+                                          width: 2),
+                                      value: controller.lagosValues[key],
+                                      activeColor:
+                                          const Color.fromRGBO(31, 68, 141, 1),
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
+                                      title: Text(key,
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              fontSize: 14.0)),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          controller.lagosValues[key] = value!;
+                                          if (controller.lagosValues[key] ==
+                                              true) {
+                                            controller.trainStation = key;
+                                            if (controller.trainStation ==
+                                                controller.lagosValues.keys
+                                                    .elementAt(0)) {
+                                              var ke = controller
+                                                  .lagosValues.keys
+                                                  .elementAt(1);
+                                              controller.lagosValues[ke] =
+                                                  false;
+                                              // ke = false;
+                                            } else if (controller
+                                                    .trainStation ==
+                                                controller.lagosValues.keys
+                                                    .elementAt(1)) {
+                                              var ke = controller
+                                                  .lagosValues.keys
+                                                  .elementAt(0);
+                                              controller.lagosValues[ke] =
+                                                  false;
+                                            }
+                                            if (kDebugMode) {
+                                              print(controller.trainStation);
+                                            }
+                                          }
+                                        });
+                                      });
+                                }).toList())
+                            : ListView(
+                                padding: const EdgeInsets.all(0),
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: controller.ibadanValues.keys
+                                    .map((String key) {
+                                  return CheckboxListTile(
+                                      contentPadding: const EdgeInsets.all(0),
+                                      side: const BorderSide(
+                                          color: Color.fromRGBO(31, 68, 141, 1),
+                                          width: 2),
+                                      value: controller.ibadanValues[key],
+                                      activeColor:
+                                          const Color.fromRGBO(31, 68, 141, 1),
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
+                                      title: Text(key,
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              fontSize: 14.0)),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          controller.ibadanValues[key] = value!;
+                                          if (controller.ibadanValues[key] ==
+                                              true) {
+                                            controller.trainStation = key;
+                                            if (controller.trainStation ==
+                                                controller.ibadanValues.keys
+                                                    .elementAt(0)) {
+                                              var ke = controller
+                                                  .ibadanValues.keys
+                                                  .elementAt(1);
+                                              controller.ibadanValues[ke] =
+                                                  false;
+                                              // ke = false;
+                                            } else if (controller
+                                                    .trainStation ==
+                                                controller.ibadanValues.keys
+                                                    .elementAt(1)) {
+                                              var ke = controller
+                                                  .ibadanValues.keys
+                                                  .elementAt(0);
+                                              controller.ibadanValues[ke] =
+                                                  false;
+                                            }
+                                            if (kDebugMode) {
+                                              print(controller.trainStation);
+                                            }
+                                          }
+                                        });
+                                      });
+                                }).toList()),
+                      ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 10.0),
-                    //   child: SizedBox(
-                    //     height: 50,
-                    //     width: MediaQuery.of(context).size.width,
-                    //     child: Center(
-                    //       child: ListView.builder(
-                    //         itemCount: controller.stations.length,
-                    //         shrinkWrap: true,
-                    //         scrollDirection: Axis.horizontal,
-                    //         physics: const BouncingScrollPhysics(),
-                    //         itemBuilder: (BuildContext context, int index) {
-                    //           return GestureDetector(
-                    //             onTap: () {
-                    //               controller.selectedStation(
-                    //                   controller.stations[index]);
-                    //               print(controller.stations[index]);
-                    //             },
-                    //             child: Padding(
-                    //               padding: const EdgeInsets.all(5.0),
-                    //               child: Container(
-                    //                 //width: 80,
-                    //                 height: 50,
-                    //                 alignment: Alignment.center,
-                    //                 padding: const EdgeInsets.all(5),
-                    //                 decoration: BoxDecoration(
-                    //                   borderRadius: BorderRadius.circular(30),
-                    //                   color: controller.trainStation ==
-                    //                           controller.stations[index]
-                    //                       ? const Color.fromRGBO(31, 68, 141, 1)
-                    //                       : Colors.white,
-                    //                 ),
-                    //                 child: Text(controller.stations[index],
-                    //                     style: GoogleFonts.montserrat(
-                    //                         fontWeight: FontWeight.w500,
-                    //                         color: controller.trainStation ==
-                    //                                 controller.stations[index]
-                    //                             ? Colors.white
-                    //                             : const Color.fromRGBO(
-                    //                                 0, 0, 0, 1),
-                    //                         fontSize: 12.0)),
-                    //               ),
-                    //             ),
-                    //           );
-                    //         },
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0, right: 10),
                       child: Container(
-                        height: 250,
+                        height: 200,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
@@ -479,11 +444,8 @@ class _TrainTicketState extends State<TrainTicket> {
                         child: SfDateRangePicker(
                           enablePastDates: false,
                           minDate: DateTime.now().add(const Duration(days: 1)),
-                          //initialSelectedDate:
-                          // DateTime.now().add(const Duration(days: 1)),
                           selectionMode: DateRangePickerSelectionMode.single,
                           onSelectionChanged: controller.onSelectionChanged,
-                          // : (DateTime val) => val.day = 'Sunday';
                         ),
                       ),
                     ),
@@ -675,21 +637,34 @@ class _TrainTicketState extends State<TrainTicket> {
                       ),
                       child: TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TrainBookedSummary(
-                                          services: widget.ticketName,
-                                          type: controller.ticketType,
-                                          //type: '08146859553',
-                                          station: controller.trainStation,
-                                          amount: controller.ticketFees,
-                                          date:
-                                              '${controller.selectedDate.characters.take(10)}' +
-                                                  " " +
-                                                  controller.time,
-                                          serviceType: widget.name,
-                                        )));
+                            if (controller.time.length > 2) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TrainBookedSummary(
+                                            services: widget.ticketName,
+                                            type: controller.ticketType,
+                                            //type: '08146859553',
+                                            station: controller.trainStation,
+                                            amount: controller.ticketFees,
+                                            date:
+                                                '${controller.selectedDate.characters.take(10)}' +
+                                                    " " +
+                                                    controller.time,
+                                            serviceType: widget.name,
+                                          )));
+                            } else {
+                              final snackBar = SnackBar(
+                                  backgroundColor:
+                                      const Color.fromRGBO(31, 68, 141, 1),
+                                  content: Text('Select time to board train',
+                                      style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                          fontSize: 18.0)));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
                           },
                           child: Text('Pay',
                               style: GoogleFonts.montserrat(

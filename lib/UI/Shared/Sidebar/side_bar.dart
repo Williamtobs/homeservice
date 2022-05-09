@@ -164,19 +164,19 @@ class SideBar extends ConsumerWidget {
             const SizedBox(height: 10),
             const Divider(color: Color.fromRGBO(229, 229, 229, 1), height: 2),
             const SizedBox(height: 10),
-            ListTile(
-              leading: const Icon(
-                Icons.favorite_outlined,
-                color: Color.fromRGBO(31, 68, 141, 1),
-              ),
-              title: Text('Your favourites',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromRGBO(0, 0, 0, 1),
-                    fontSize: 18.0,
-                  )),
-            ),
-            const SizedBox(height: 5),
+            // ListTile(
+            //   leading: const Icon(
+            //     Icons.favorite_outlined,
+            //     color: Color.fromRGBO(31, 68, 141, 1),
+            //   ),
+            //   title: Text('Your favourites',
+            //       style: GoogleFonts.montserrat(
+            //         fontWeight: FontWeight.w600,
+            //         color: const Color.fromRGBO(0, 0, 0, 1),
+            //         fontSize: 18.0,
+            //       )),
+            // ),
+            // const SizedBox(height: 5),
             ListTile(
               leading: const Icon(
                 Icons.credit_card_outlined,

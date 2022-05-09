@@ -143,9 +143,9 @@ class HomeScreen extends ConsumerWidget {
                                 topRight: Radius.circular(35))),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              left: 10.0, right: 10.0, bottom: 10.0, top: 40.0),
+                              left: 10.0, right: 10.0, bottom: 10.0, top: 20.0),
                           child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(),
+                            physics: const AlwaysScrollableScrollPhysics(),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -270,9 +270,9 @@ class HomeScreen extends ConsumerWidget {
                                               const Color.fromRGBO(0, 0, 0, 1),
                                           fontSize: 19.0)),
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 10),
                                 const Gridview(),
-                                const SizedBox(height: 40),
+                                const SizedBox(height: 50),
                               ],
                             ),
                           ),

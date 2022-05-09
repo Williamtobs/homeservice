@@ -4,7 +4,6 @@ import 'package:homeservice/UI/Shared/app_bar.dart';
 import 'package:homeservice/UI/Ticketscreen/widgets/cards.dart';
 
 import 'controller/select_ticket_controller.dart';
-import 'train_ticket.dart';
 
 class SelectTicket extends StatelessWidget {
   final String name;

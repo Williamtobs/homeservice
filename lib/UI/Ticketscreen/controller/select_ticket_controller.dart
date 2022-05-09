@@ -6,10 +6,10 @@ class SelectTicketNotifier extends ChangeNotifier {
   String lagosIbadan = 'Lagos to Ibadan';
 
   String descriptionIbadan =
-      'Purchase a Train ticket from Ibadan to Lagos at a go without stress';
+      'Purchase a Train ticket from Ibadan to Lagos without stress';
 
   String descriptionLagos =
-      'Purchase a Train ticket from Lagos to Ibadan at a go without stress';
+      'Purchase a Train ticket from Lagos to Ibadan without stress';
 }
 
 final selectTicketNotifier =

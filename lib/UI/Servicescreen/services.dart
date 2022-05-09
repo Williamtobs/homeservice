@@ -276,7 +276,7 @@ class _BookServiceState extends State<BookService> {
                     child: SfDateRangePicker(
                       enablePastDates: false,
                       minDate: DateTime.now(),
-                      initialSelectedDate: DateTime.now(),
+                      //initialSelectedDate: DateTime.now(),
                       selectionMode: DateRangePickerSelectionMode.single,
                       onSelectionChanged: _onSelectionChanged,
                     ),
@@ -337,7 +337,7 @@ class _BookServiceState extends State<BookService> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 60, child: Text(' ')),
+                const SizedBox(height: 60)
               ],
             ),
           ),
