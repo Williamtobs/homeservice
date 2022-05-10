@@ -375,10 +375,14 @@ class _SignUpState extends State<SignUp> {
     print(state);
     await setup.storeUserData(
         uid: uid,
-        userName: firstName.text.trim() + " " + surName.text.trim(),
         phone: phone.text.trim(),
         state: state!,
         email: _email.text.trim(),
-        code: code.text.trim());
+        code: code.text.trim(),
+        firstName: firstName.text.trim(),
+        lastName: surName.text.trim(),
+        amount: '0',
+        houseAddress: '',
+        deliveryAddress: '');
   }
 }

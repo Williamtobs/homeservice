@@ -4,10 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class TrainTicketNotifier extends ChangeNotifier {
-  // var ibadanLagos = false;
-  // var lagosIbadan = false;
-  // var ibadanAbeokuta = false;
-  // var abeokutaIbadan = false;
   String type = '';
   String trainStation = '';
   String selectedDate = '';
@@ -17,10 +13,11 @@ class TrainTicketNotifier extends ChangeNotifier {
 
   String ticketType = '';
 
-  String economyAmount = '2,500';
-  String businessAmount = '3,500';
-  String upperBusiness = '5,000';
-  String vip = '6,000';
+  int? economyAmount;
+  int? businessAmount;
+  int? upperBusiness;
+  int? vip;
+
   String day = '';
 
   void economyChecked(String ticketType, String price) {
@@ -39,16 +36,11 @@ class TrainTicketNotifier extends ChangeNotifier {
     'Obafemi Awolowo (Moniya Station) Ibadan': false,
   };
 
-  List stations = [
-    'Wole soyinka train station',
-    'Omi Adio',
-    'Lagos Station',
-    'Abeokuta Station'
-  ];
-
-  List times = ['8:00 am', '4:00 pm'];
-  List saturdayTime = ['8:00 am', '1:00 pm', '4:00 pm'];
-  List fridayTime = ['8:00 am', '12:00 pm', '4:00 pm'];
+  List? times;
+  List? saturdayTime;
+  List? fridayTime;
+  List? lagosStation;
+  List? ibadanStation;
 
   void selectTime(String time) {
     this.time = time;
@@ -72,8 +64,6 @@ class TrainTicketNotifier extends ChangeNotifier {
       DateFormat getDate = DateFormat('EEEE');
       selectedDate = formatter.format(args.value);
       day = getDate.format(args.value);
-      print(selectedDate);
-      print(day);
       notifyListeners();
     } else if (args.value is List<DateTime>) {
     } else {}

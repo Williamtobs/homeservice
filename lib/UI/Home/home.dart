@@ -6,6 +6,7 @@ import 'package:homeservice/Providers/auth_providers.dart';
 import 'package:homeservice/UI/Notification/notification_screen.dart';
 import 'package:homeservice/UI/Shared/Sidebar/side_bar.dart';
 import 'package:homeservice/UI/Shared/images.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'gridview.dart';
 
@@ -13,6 +14,7 @@ class HomeScreen extends ConsumerWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   String? name;
+  String? amount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -90,7 +92,9 @@ class HomeScreen extends ConsumerWidget {
                                   child: StreamBuilder<DocumentSnapshot>(
                                       stream: users,
                                       builder: (context, snapshot) {
-                                        if (!snapshot.hasData) {
+                                        if (!snapshot.hasData ||
+                                            snapshot.connectionState ==
+                                                ConnectionState.waiting) {
                                           return Text("Loading",
                                               style: GoogleFonts.montserrat(
                                                   fontWeight: FontWeight.w700,
@@ -101,7 +105,8 @@ class HomeScreen extends ConsumerWidget {
                                         Map<String, dynamic> data =
                                             snapshot.data!.data()
                                                 as Map<String, dynamic>;
-                                        name = data['name'];
+                                        name =
+                                            '${data['first_name']} ${data['last_name']}';
                                         return Row(
                                           children: [
                                             Text('Hi, $name  ',
@@ -177,13 +182,51 @@ class HomeScreen extends ConsumerWidget {
                                       ),
                                       Row(
                                         children: [
-                                          Text('N2000.00',
-                                              style: GoogleFonts.montserrat(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontStyle: FontStyle.normal,
-                                                  color: const Color.fromRGBO(
-                                                      255, 255, 255, 1),
-                                                  fontSize: 21.0)),
+                                          StreamBuilder<DocumentSnapshot>(
+                                              stream: users,
+                                              builder: (context, snapshot) {
+                                                if (!snapshot.hasData ||
+                                                    snapshot.connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                  return SizedBox(
+                                                      height: 20,
+                                                      width: 20,
+                                                      child: Shimmer.fromColors(
+                                                        child: const Card(
+                                                          color: Colors.grey,
+                                                        ),
+                                                        baseColor:
+                                                            Colors.white70,
+                                                        highlightColor:
+                                                            const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                97,
+                                                                97,
+                                                                97),
+                                                      ));
+                                                }
+                                                Map<String, dynamic> data =
+                                                    snapshot.data!.data()
+                                                        as Map<String, dynamic>;
+                                                amount =
+                                                    'N ${data['wallet_amount']}';
+                                                return Text(amount!,
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                255,
+                                                                255,
+                                                                255,
+                                                                1),
+                                                            fontSize: 21.0));
+                                              }),
                                           const SizedBox(
                                             width: 10,
                                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share/share.dart';
 
 import '../../app_bar.dart';
 import '../../images.dart';
@@ -7,6 +8,7 @@ import '../../images.dart';
 class ReferAndEarn extends StatelessWidget {
   const ReferAndEarn({Key? key}) : super(key: key);
 
+  final String referralLink = 'homeservice.com/user/123454';
   //TextEditingController _controller = TextEditingController();
 
   @override
@@ -76,8 +78,7 @@ class ReferAndEarn extends StatelessWidget {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(15)),
                     child: TextField(
-                      controller: TextEditingController()
-                        ..text = 'homeservice.com/user/123454',
+                      controller: TextEditingController()..text = referralLink,
                       decoration: InputDecoration(
                         isDense: true,
                         enabled: false,
@@ -97,16 +98,21 @@ class ReferAndEarn extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Container(
-                    height: 45,
-                    width: 46,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: const Color.fromRGBO(31, 68, 141, 1)),
-                    child: const Icon(
-                      Icons.ios_share,
-                      size: 22,
-                      color: Color.fromRGBO(255, 255, 255, 1),
+                  GestureDetector(
+                    onTap: () {
+                      Share.share(referralLink);
+                    },
+                    child: Container(
+                      height: 45,
+                      width: 46,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: const Color.fromRGBO(31, 68, 141, 1)),
+                      child: const Icon(
+                        Icons.ios_share,
+                        size: 24,
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                      ),
                     ),
                   )
                 ],
