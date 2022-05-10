@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/Providers/auth_providers.dart';
 import 'package:homeservice/UI/Shared/Sidebar/options/about_us.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../Profile/edit_profile_screen.dart';
 import '../images.dart';
@@ -83,22 +84,27 @@ class SideBar extends ConsumerWidget {
                 StreamBuilder<DocumentSnapshot>(
                     stream: users,
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Text("Loading",
-                            style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.w700,
-                              color: const Color.fromRGBO(0, 0, 0, 1),
-                              fontSize: 30.0,
+                      if (!snapshot.hasData ||
+                          snapshot.connectionState == ConnectionState.waiting) {
+                        return SizedBox(
+                            height: 40,
+                            child: Shimmer.fromColors(
+                              child: const Card(
+                                color: Colors.grey,
+                              ),
+                              baseColor: Colors.white70,
+                              highlightColor:
+                                  const Color.fromARGB(255, 97, 97, 97),
                             ));
                       }
                       Map<String, dynamic> data =
                           snapshot.data!.data() as Map<String, dynamic>;
-                      name = data['name'];
+                      name = '${data['first_name']} ${data['last_name']}';
                       return Text(name!,
                           style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w700,
                             color: const Color.fromRGBO(0, 0, 0, 1),
-                            fontSize: 30.0,
+                            fontSize: 24.0,
                           ));
                     })
               ],
@@ -113,7 +119,8 @@ class SideBar extends ConsumerWidget {
               StreamBuilder<DocumentSnapshot>(
                   stream: users,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
+                    if (!snapshot.hasData ||
+                        snapshot.connectionState == ConnectionState.waiting) {
                       return Text("Loading",
                           style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w600,
@@ -142,7 +149,8 @@ class SideBar extends ConsumerWidget {
               StreamBuilder<DocumentSnapshot>(
                   stream: users,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
+                    if (!snapshot.hasData ||
+                        snapshot.connectionState == ConnectionState.waiting) {
                       return Text("Loading",
                           style: GoogleFonts.montserrat(
                             fontWeight: FontWeight.w600,
@@ -164,19 +172,6 @@ class SideBar extends ConsumerWidget {
             const SizedBox(height: 10),
             const Divider(color: Color.fromRGBO(229, 229, 229, 1), height: 2),
             const SizedBox(height: 10),
-            ListTile(
-              leading: const Icon(
-                Icons.favorite_outlined,
-                color: Color.fromRGBO(31, 68, 141, 1),
-              ),
-              title: Text('Your favourites',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromRGBO(0, 0, 0, 1),
-                    fontSize: 18.0,
-                  )),
-            ),
-            const SizedBox(height: 5),
             ListTile(
               leading: const Icon(
                 Icons.credit_card_outlined,

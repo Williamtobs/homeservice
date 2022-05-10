@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,11 +50,9 @@ class _BarbingScreenState extends State<BarbingScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  padding:
+                      const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
                   child: Container(
                     //height: 263,
                     decoration: BoxDecoration(
@@ -64,14 +63,11 @@ class _BarbingScreenState extends State<BarbingScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.name,
-                              style: GoogleFonts.montserrat(
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color.fromRGBO(0, 0, 0, 1),
-                                  fontSize: 24.0)),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                          // Text(widget.name,
+                          //     style: GoogleFonts.montserrat(
+                          //         fontWeight: FontWeight.w600,
+                          //         color: const Color.fromRGBO(0, 0, 0, 1),
+                          //         fontSize: 24.0)),
                           Row(
                             children: [
                               Column(
@@ -260,7 +256,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
                     child: SfDateRangePicker(
                       enablePastDates: false,
                       minDate: DateTime.now(),
-                      initialSelectedDate: DateTime.now(),
+                      //initialSelectedDate: DateTime.now(),
                       selectionMode: DateRangePickerSelectionMode.single,
                       onSelectionChanged: _onSelectionChanged,
                     ),
@@ -295,7 +291,9 @@ class _BarbingScreenState extends State<BarbingScreen> {
                           return GestureDetector(
                             onTap: () {
                               selected(times[index]);
-                              print(times[index]);
+                              if (kDebugMode) {
+                                print(times[index]);
+                              }
                             },
                             child: Container(
                               width: 80,
@@ -322,7 +320,7 @@ class _BarbingScreenState extends State<BarbingScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30)
+                const SizedBox(height: 60)
               ],
             ),
           ),
