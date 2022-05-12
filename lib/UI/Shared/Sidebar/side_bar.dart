@@ -10,6 +10,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../Profile/edit_profile_screen.dart';
 import '../images.dart';
 import 'options/refer.dart';
+import 'options/setting_screen.dart';
 import 'options/support.dart';
 
 class SideBar extends ConsumerWidget {
@@ -223,18 +224,25 @@ class SideBar extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 5),
-            ListTile(
-              leading: const Icon(
-                Icons.settings,
-                color: Color.fromRGBO(31, 68, 141, 1),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SettingScreen()));
+              },
+              child: ListTile(
+                leading: const Icon(
+                  Icons.settings,
+                  color: Color.fromRGBO(31, 68, 141, 1),
+                ),
+                title: Text('Settings',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                      color: const Color.fromRGBO(0, 0, 0, 1),
+                      fontSize: 18.0,
+                    )),
               ),
-              title: Text('Settings',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromRGBO(0, 0, 0, 1),
-                    fontSize: 18.0,
-                  )),
             ),
+            //SettingScreen
             const SizedBox(height: 5),
             GestureDetector(
               onTap: () {

@@ -1,30 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../Providers/auth_providers.dart';
 import '../../Providers/services_data_provider.dart';
 import '../Shared/app_bar.dart';
 import '../Shared/images.dart';
 import 'controller/train_ticket_controller.dart';
 import 'receipt_screen.dart';
 
-class TrainTicket extends StatefulWidget {
+class TrainTicket extends ConsumerStatefulWidget {
   final String name;
   final String ticketName;
   const TrainTicket({Key? key, required this.name, required this.ticketName})
       : super(key: key);
 
   @override
-  State<TrainTicket> createState() => _TrainTicketState();
+  _TrainTicketState createState() => _TrainTicketState();
 }
 
-class _TrainTicketState extends State<TrainTicket> {
-  String trainfees = '0';
-
+class _TrainTicketState extends ConsumerState<TrainTicket> {
+  String? number;
   @override
   Widget build(BuildContext context) {
+    final data = ref.watch(dataProvider);
+    final userData = ref.watch(fireBaseAuthProvider);
+    var users = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userData.currentUser!.uid)
+        .snapshots();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
       appBar: PreferredSize(
@@ -684,46 +691,64 @@ class _TrainTicketState extends State<TrainTicket> {
                             color: const Color.fromRGBO(31, 68, 141, 1),
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: TextButton(
-                              onPressed: () {
-                                if (controller.time.length > 2) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              TrainBookedSummary(
-                                                services: widget.ticketName,
-                                                type: controller.ticketType,
-                                                //type: '08146859553',
-                                                station:
-                                                    controller.trainStation,
-                                                amount: controller.ticketFees,
-                                                date:
-                                                    '${controller.selectedDate.characters.take(10)}' +
-                                                        " " +
-                                                        controller.time,
-                                                serviceType: widget.name,
-                                              )));
-                                } else {
-                                  final snackBar = SnackBar(
-                                      backgroundColor:
-                                          const Color.fromRGBO(31, 68, 141, 1),
-                                      content: Text(
-                                          'Select time to board train',
-                                          style: GoogleFonts.montserrat(
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white,
-                                              fontSize: 18.0)));
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                          child: StreamBuilder<DocumentSnapshot>(
+                              stream: users,
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData ||
+                                    snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
                                 }
-                              },
-                              child: Text('Pay',
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color.fromRGBO(
-                                          255, 255, 255, 1),
-                                      fontSize: 12.0))),
+                                Map<String, dynamic> data = snapshot.data!
+                                    .data() as Map<String, dynamic>;
+                                number = data['phone'];
+                                return TextButton(
+                                    onPressed: () {
+                                      if (controller.time.length > 2) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TrainBookedSummary(
+                                                      services:
+                                                          widget.ticketName,
+                                                      type:
+                                                          controller.ticketType,
+                                                          number: number!,
+                                                      
+                                                      station: controller
+                                                          .trainStation,
+                                                      amount:
+                                                          '${int.parse(controller.ticketFees) + 500}',
+                                                      date:
+                                                          '${controller.selectedDate.characters.take(10)}' +
+                                                              " " +
+                                                              controller.time,
+                                                      serviceType: widget.name,
+                                                    )));
+                                      } else {
+                                        final snackBar = SnackBar(
+                                            backgroundColor:
+                                                const Color.fromRGBO(
+                                                    31, 68, 141, 1),
+                                            content: Text(
+                                                'Select time to board train',
+                                                style: GoogleFonts.montserrat(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                    fontSize: 18.0)));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: Text('Pay',
+                                        style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w500,
+                                            color: const Color.fromRGBO(
+                                                255, 255, 255, 1),
+                                            fontSize: 12.0)));
+                              }),
                         ),
                       ],
                     ),

@@ -31,7 +31,7 @@ final fireBaseAuthProvider = Provider<FirebaseAuth>((ref) {
   return FirebaseAuth.instance;
 });
 
-//  Provider for fetching data from the firestore.
+//  Provider for fetching User data from the firestore.
 final userProvider = StreamProvider<User?>(
   (ref) => FirebaseAuth.instance.authStateChanges(),
 );

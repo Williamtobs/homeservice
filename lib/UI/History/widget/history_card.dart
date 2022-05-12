@@ -5,7 +5,7 @@ class HistoryCard extends StatelessWidget {
   final String orderType;
   final String id;
   final String scheduledDate;
-  final String scheduledTime;
+
   final String amount;
 
   const HistoryCard(
@@ -13,7 +13,6 @@ class HistoryCard extends StatelessWidget {
       required this.orderType,
       required this.id,
       required this.scheduledDate,
-      required this.scheduledTime,
       required this.amount})
       : super(key: key);
 
@@ -52,7 +51,7 @@ class HistoryCard extends StatelessWidget {
           ),
           Row(
             children: [
-              Text('Pick-Up Date',
+              Text('Date and Time',
                   style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
@@ -70,7 +69,7 @@ class HistoryCard extends StatelessWidget {
           ),
           Row(
             children: [
-              Text('$scheduledDate $scheduledTime',
+              Text(scheduledDate,
                   style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,

@@ -7,6 +7,7 @@ import '../../Providers/users_data_provider.dart';
 import '../Shared/images.dart';
 import 'widgets/profile_textfield.dart';
 
+// ignore: must_be_immutable
 class EditProfile extends StatelessWidget {
   EditProfile({Key? key}) : super(key: key);
 
