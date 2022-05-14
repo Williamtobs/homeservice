@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +12,8 @@ import 'package:homeservice/UI/Shared/Formfield/textformfield_view.dart';
 import 'package:homeservice/UI/Shared/custom_navigation.dart';
 import 'package:homeservice/UI/Shared/images.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
+
+import 'VerifyEmail/verify_email_screen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -66,11 +68,13 @@ class _SignUpState extends State<SignUp> {
                     loading();
                     return;
                   }
-                  print(data.currentUser!.uid);
-                  print('here');
                   saveInfo(data.currentUser!.uid);
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CustomNavigation()));
+                  final User user = data.currentUser!;
+                  await user.sendEmailVerification().then((value) async {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const VerifyEmail()));
+                  });
+                  print(data.currentUser!.uid);
                 }));
       }
 
@@ -372,7 +376,7 @@ class _SignUpState extends State<SignUp> {
   var setup = Database();
 
   saveInfo(var uid) async {
-    print(state);
+    //print(state);
     await setup.storeUserData(
         uid: uid,
         phone: phone.text.trim(),

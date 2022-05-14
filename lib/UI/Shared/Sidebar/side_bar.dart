@@ -7,6 +7,7 @@ import 'package:homeservice/UI/Shared/Sidebar/options/about_us.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../AddMoney/add_money_screen.dart';
 import '../../Profile/edit_profile_screen.dart';
 import '../images.dart';
 import 'options/refer.dart';
@@ -173,17 +174,24 @@ class SideBar extends ConsumerWidget {
             const SizedBox(height: 10),
             const Divider(color: Color.fromRGBO(229, 229, 229, 1), height: 2),
             const SizedBox(height: 10),
-            ListTile(
-              leading: const Icon(
-                Icons.credit_card_outlined,
-                color: Color.fromRGBO(31, 68, 141, 1),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => AddMoneyScreen()));
+                //AddMoneyScreen
+              },
+              child: ListTile(
+                leading: const Icon(
+                  Icons.credit_card_outlined,
+                  color: Color.fromRGBO(31, 68, 141, 1),
+                ),
+                title: Text('Payments',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                      color: const Color.fromRGBO(0, 0, 0, 1),
+                      fontSize: 18.0,
+                    )),
               ),
-              title: Text('Payments',
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromRGBO(0, 0, 0, 1),
-                    fontSize: 18.0,
-                  )),
             ),
             const SizedBox(height: 5),
             GestureDetector(

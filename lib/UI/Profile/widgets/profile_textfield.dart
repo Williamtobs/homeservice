@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 
 class ProfileTextField extends StatelessWidget {
   final TextEditingController controller;
-  const ProfileTextField({Key? key, required this.controller})
+  final Color? color;
+  const ProfileTextField({Key? key, required this.controller, this.color})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         filled: true,
-        fillColor: Color.fromRGBO(229, 229, 229, 1),
-        enabledBorder: OutlineInputBorder(
+        fillColor: color ?? const Color.fromRGBO(229, 229, 229, 1),
+        enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: Color.fromRGBO(0, 0, 0, 0.5),
           ),
         ),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: Color.fromRGBO(0, 0, 0, 0.5),
           ),

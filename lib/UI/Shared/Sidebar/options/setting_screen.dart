@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../Profile/UpdateEmail/update_email_screen.dart';
+import '../../../Profile/UpdatePassword/change_password.dart';
+import '../../../Profile/UpdatePhone/change_phone.dart';
 import '../../../Profile/edit_profile_screen.dart';
 import 'widgets/list_tiles.dart';
 
@@ -77,24 +80,37 @@ class SettingScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const SettingListTile(
-            icon: Icon(
-              Icons.mail,
-              color: Color.fromARGB(255, 14, 13, 13),
+          InkWell(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => UpdateEmail()));
+            },
+            child: const SettingListTile(
+              icon: Icon(
+                Icons.mail,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+              title: 'Email Address',
             ),
-            title: 'Email Address',
           ),
           const Divider(
             height: 1,
             color: Color.fromRGBO(250, 250, 250, 1),
           ),
-          const SettingListTile(
-            icon: Icon(
-              Icons.call,
-              color: Color.fromARGB(255, 14, 13, 13),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ChangeNumber()));
+            },
+            child: const SettingListTile(
+              icon: Icon(
+                Icons.call,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+              title: 'Phone number',
             ),
-            title: 'Phone number',
           ),
+          //
           const Divider(
             height: 1,
             color: Color.fromRGBO(250, 250, 250, 1),
@@ -133,12 +149,18 @@ class SettingScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const SettingListTile(
-            icon: Icon(
-              Icons.password,
-              color: Color.fromARGB(255, 14, 13, 13),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ChangePassword()));
+            },
+            child: const SettingListTile(
+              icon: Icon(
+                Icons.password,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+              title: 'Update Password',
             ),
-            title: 'Update Password',
           ),
         ],
       ),
