@@ -31,3 +31,4 @@ const String map = 'assets/map_style.json';
 const String aboutUs = 'assets/about_us.jpg';
 const String support = 'assets/support.jpg';
 const String gift = 'assets/gift_app.png';
+const String email = 'assets/email.jpg';

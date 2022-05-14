@@ -8,18 +8,19 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../Constants/time.dart';
+import '../../Providers/auth_providers.dart';
 import '../ReviewService/finalize_services.dart';
 import '../Shared/app_bar.dart';
 
-class BarbingScreen extends StatefulWidget {
+class BarbingScreen extends ConsumerStatefulWidget {
   final String name;
   const BarbingScreen({Key? key, required this.name}) : super(key: key);
 
   @override
-  State<BarbingScreen> createState() => _BarbingScreenState();
+  _BarbingScreenState createState() => _BarbingScreenState();
 }
 
-class _BarbingScreenState extends State<BarbingScreen> {
+class _BarbingScreenState extends ConsumerState<BarbingScreen> {
   String? hairAmount;
 
   String? hairDyeAmount;
@@ -35,8 +36,16 @@ class _BarbingScreenState extends State<BarbingScreen> {
   String selectedDate = '';
   String time = '';
 
+  String? number;
+  String? address;
+
   @override
   Widget build(BuildContext context) {
+    final userData = ref.watch(fireBaseAuthProvider);
+    var users = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userData.currentUser!.uid)
+        .snapshots();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
       appBar: PreferredSize(
@@ -358,28 +367,43 @@ class _BarbingScreenState extends State<BarbingScreen> {
                       color: const Color.fromRGBO(31, 68, 141, 1),
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FinalizeServices(
-                                        services: '$service',
-                                        address: 'UI, Ibadan',
-                                        number: '08146859553',
-                                        amount: serviceAmount,
-                                        date:
-                                            '${selectedDate.characters.take(10)}' +
-                                                " " +
-                                                time,
-                                        serviceType: widget.name,
-                                      )));
-                        },
-                        child: Text('Pay',
-                            style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 12.0))),
+                    child: StreamBuilder<DocumentSnapshot>(
+                        stream: users,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData ||
+                              snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                          Map<String, dynamic> data =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                          number = data['phone'];
+                          address = data['delivery_address'];
+                          return TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FinalizeServices(
+                                              services: service,
+                                              address: address!,
+                                              number: number!,
+                                              amount: serviceAmount,
+                                              date:
+                                                  '${selectedDate.characters.take(10)}' +
+                                                      " " +
+                                                      time,
+                                              serviceType: widget.name,
+                                            )));
+                              },
+                              child: Text('Pay',
+                                  style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromRGBO(
+                                          255, 255, 255, 1),
+                                      fontSize: 12.0)));
+                        }),
                   ),
                 ],
               ),

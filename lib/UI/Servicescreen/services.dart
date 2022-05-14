@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../Constants/time.dart';
+import '../../Providers/auth_providers.dart';
 import '../../Providers/services_data_provider.dart';
 import '../ReviewService/finalize_services.dart';
 
@@ -28,6 +30,9 @@ class _BookServiceState extends ConsumerState<BookService> {
   int price = 0;
   String time = '';
   String selectedDate = '';
+
+  String? number;
+  String? address;
 
   void basketPriceChange(String val) {
     if (val == 'add') {
@@ -56,6 +61,11 @@ class _BookServiceState extends ConsumerState<BookService> {
   @override
   Widget build(BuildContext context) {
     final data = ref.watch(dataProvider);
+    final userData = ref.watch(fireBaseAuthProvider);
+    var users = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userData.currentUser!.uid)
+        .snapshots();
     return data.when(
       data: (barbing) {
         otherPrice = barbing!['others'];
@@ -399,30 +409,45 @@ class _BookServiceState extends ConsumerState<BookService> {
                           color: const Color.fromRGBO(31, 68, 141, 1),
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FinalizeServices(
-                                            services:
-                                                '$basketNum Cloth(es) Basket\n $otherNum Others',
-                                            address: 'UI, Ibadan',
-                                            number: '08146859553',
-                                            amount: '$price',
-                                            date:
-                                                '${selectedDate.characters.take(10)}' +
-                                                    " " +
-                                                    time,
-                                            serviceType: widget.name,
-                                          )));
-                            },
-                            child: Text('Pay',
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w500,
-                                    color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
-                                    fontSize: 12.0))),
+                        child: StreamBuilder<DocumentSnapshot>(
+                            stream: users,
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData ||
+                                  snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              Map<String, dynamic> data =
+                                  snapshot.data!.data() as Map<String, dynamic>;
+                              number = data['phone'];
+                              address = data['delivery_address'];
+                              return TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FinalizeServices(
+                                                  services:
+                                                      '$basketNum Cloth(es) Basket\n $otherNum Others',
+                                                  address: address!,
+                                                  number: number!,
+                                                  amount: '$price',
+                                                  date:
+                                                      '${selectedDate.characters.take(10)}' +
+                                                          " " +
+                                                          time,
+                                                  serviceType: widget.name,
+                                                )));
+                                  },
+                                  child: Text('Pay',
+                                      style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color.fromRGBO(
+                                              255, 255, 255, 1),
+                                          fontSize: 12.0)));
+                            }),
                       ),
                     ],
                   ),

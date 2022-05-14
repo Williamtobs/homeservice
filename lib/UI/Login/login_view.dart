@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeservice/Constants/validators.dart';
-import 'package:homeservice/Database/database.dart';
 import 'package:homeservice/Providers/auth_providers.dart';
 import 'package:homeservice/UI/Authentication/forgot_password.dart';
 import 'package:homeservice/UI/Shared/Formfield/textformfield_view.dart';
@@ -10,6 +10,8 @@ import 'package:homeservice/UI/Shared/custom_navigation.dart';
 import 'package:homeservice/UI/Shared/images.dart';
 import 'package:homeservice/UI/Signup/signup_view.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
+
+import '../Signup/VerifyEmail/verify_email_screen.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -56,6 +58,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       final _auth = ref.watch(authenticationProvider);
+      final data = ref.watch(fireBaseAuthProvider);
 
       Future<void> _onPressedFunction() async {
         if (!_formKey.currentState!.validate()) {
@@ -65,12 +68,29 @@ class _LoginState extends State<Login> {
         await _auth
             .signInWithEmailAndPassword(email.text, password.text, context)
             .whenComplete(() => _auth.authStateChange.listen((event) async {
+                  final User user = data.currentUser!;
                   if (event == null) {
                     loading();
                     return;
                   }
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CustomNavigation()));
+                  if (user.emailVerified == true) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CustomNavigation()));
+                  } else {
+                    await user.sendEmailVerification();
+
+                    final snackBar = SnackBar(
+                        backgroundColor: const Color.fromRGBO(31, 68, 141, 1),
+                        content: Text('Check your mail for verification link',
+                            style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                fontSize: 16.0)));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const VerifyEmail()));
+                    loading();
+                  }
                 }));
       }
 

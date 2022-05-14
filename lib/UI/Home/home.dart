@@ -8,6 +8,7 @@ import 'package:homeservice/UI/Shared/Sidebar/side_bar.dart';
 import 'package:homeservice/UI/Shared/images.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../AddMoney/add_money_screen.dart';
 import 'gridview.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -237,37 +238,50 @@ class HomeScreen extends ConsumerWidget {
                                                 255, 255, 255, 1),
                                           ),
                                           const Spacer(),
-                                          Container(
-                                            width: 106,
-                                            height: 26,
-                                            padding: const EdgeInsets.all(5),
-                                            decoration: BoxDecoration(
-                                              color: const Color.fromRGBO(
-                                                  255, 255, 255, 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.add_circle_outlined,
-                                                  size: 18,
-                                                  color: Color.fromRGBO(
-                                                      31, 68, 141, 1),
-                                                ),
-                                                const SizedBox(width: 15),
-                                                Text('Add Money',
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            color: const Color
-                                                                    .fromRGBO(
-                                                                31, 68, 141, 1),
-                                                            fontSize: 10.0)),
-                                              ],
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AddMoneyScreen()));
+                                            },
+                                            child: Container(
+                                              width: 106,
+                                              height: 26,
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                color: const Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.add_circle_outlined,
+                                                    size: 18,
+                                                    color: Color.fromRGBO(
+                                                        31, 68, 141, 1),
+                                                  ),
+                                                  const SizedBox(width: 15),
+                                                  Text('Add Money',
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              color: const Color
+                                                                      .fromRGBO(
+                                                                  31,
+                                                                  68,
+                                                                  141,
+                                                                  1),
+                                                              fontSize: 10.0)),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ],
