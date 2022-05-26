@@ -25,6 +25,7 @@
 **/ios/Flutter/.last_build_id
 lib/firebase_options.dart
 lib/Providers/services_data_provider.dart
+lib/Service/api_base_helper.dart
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies

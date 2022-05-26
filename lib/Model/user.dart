@@ -6,7 +6,7 @@ class Users {
   String? state;
   String? email;
   String? code;
-  String? deliveryAddress;
+  List<String>? deliveryAddress;
   String? houseAddress;
   String? walletAmount;
 

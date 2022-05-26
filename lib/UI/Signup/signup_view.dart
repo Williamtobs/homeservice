@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,11 +11,11 @@ import 'package:homeservice/Providers/auth_providers.dart';
 import 'package:homeservice/UI/Login/login_view.dart';
 import 'package:homeservice/UI/Shared/Formfield/create_passwordfield.dart';
 import 'package:homeservice/UI/Shared/Formfield/textformfield_view.dart';
-import 'package:homeservice/UI/Shared/custom_navigation.dart';
 import 'package:homeservice/UI/Shared/images.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
 
-import 'VerifyEmail/verify_email_screen.dart';
+import '../../Service/api_service.dart';
+import 'VerifyPhone/verify_phone.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -36,6 +38,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController code = TextEditingController();
   var uid;
   String? state;
+  var service = ApiService();
 
   void _onRememberMeChanged(bool? newValue) => setState(() {
         agree = newValue!;
@@ -47,8 +50,30 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
+  sendVerification(var data) async {
+    saveInfo(data.currentUser!.uid);
+    final User user = data.currentUser!;
+    await user.sendEmailVerification().then((value) async {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => VerifyPhone(
+                phone: phone.text,
+                senderId: data.currentUser!.uid,
+              )));
+    });
+    print(data.currentUser!.uid);
+  }
+
   @override
   Widget build(BuildContext context) {
+    String generateRandomString(int len) {
+      var r = Random();
+      const _chars =
+          'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+      return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+          .join();
+    }
+
+    var id = generateRandomString(10);
     return Consumer(builder: (context, ref, _) {
       final _auth = ref.watch(authenticationProvider);
       final data = ref.watch(fireBaseAuthProvider);
@@ -61,22 +86,34 @@ class _SignUpState extends State<SignUp> {
         }
         //print('here');
         loading();
-        await _auth
-            .signUpWithEmailAndPassword(_email.text, _password.text, context)
-            .whenComplete(() => _auth.authStateChange.listen((event) async {
-                  if (event == null) {
-                    loading();
-                    return;
-                  }
-                  saveInfo(data.currentUser!.uid);
-                  final User user = data.currentUser!;
-                  await user.sendEmailVerification().then((value) async {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const VerifyEmail()));
-                  });
-                  print(data.currentUser!.uid);
-                }));
+        service.requestId(id).then((value) async {
+          if (value == 200) {
+            await _auth
+                .signUpWithEmailAndPassword(
+                    _email.text, _password.text, context)
+                .whenComplete(() => _auth.authStateChange.listen((event) async {
+                      sendVerification(data);
+                      if (event == null) {
+                        loading();
+                        return;
+                      }
+                    }));
+          } else {
+            print(value);
+            loading();
+            return;
+          }
+        });
       }
+      //service.requestId(id).then((value) {
+      //   if (value == 200) {
+      //     sendVerification(data);
+      //   } else {
+      //     print(value);
+      //     loading();
+      //     return;
+      //   }
+      // });
 
       return Form(
         key: _formKey,
@@ -387,6 +424,6 @@ class _SignUpState extends State<SignUp> {
         lastName: surName.text.trim(),
         amount: '0',
         houseAddress: '',
-        deliveryAddress: '');
+        deliveryAddress: ['']);
   }
 }

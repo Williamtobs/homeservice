@@ -53,6 +53,13 @@ dependencies:
   shimmer: ^2.0.0
   share: ^2.0.4
   uuid: ^3.0.6
+  http: ^0.13.4
+  flutter_dojah_financial: ^0.0.5
+  virtual_keyboard: ^0.1.4
+  pinput: ^2.2.8
+  mapbox_search: ^3.0.1+2
+  flutter_mapbox_autocomplete: ^2.0.0
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

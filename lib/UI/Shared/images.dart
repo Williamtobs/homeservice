@@ -32,3 +32,4 @@ const String aboutUs = 'assets/about_us.jpg';
 const String support = 'assets/support.jpg';
 const String gift = 'assets/gift_app.png';
 const String email = 'assets/email.jpg';
+const String otp = 'assets/otp.png';
