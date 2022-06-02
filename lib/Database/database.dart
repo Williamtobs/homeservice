@@ -100,6 +100,10 @@ class Database {
     required String houseAddress,
     required List<String> deliveryAddress,
     required String amount,
+    required String customerCode,
+    required String bankName,
+    required String accountNumber,
+    required String accountName,
   }) async {
     //uid = _auth.currentUser?.uid;
     DocumentReference documentReferencer = userCollection.doc(uid);
@@ -107,17 +111,20 @@ class Database {
       print(uid);
     }
     Users user = Users(
-      uid: uid,
-      firstName: firstName,
-      lastName: lastName,
-      phone: phone,
-      state: state,
-      email: email,
-      code: code,
-      houseAddress: houseAddress,
-      deliveryAddress: deliveryAddress,
-      walletAmount: amount,
-    );
+        uid: uid,
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        state: state,
+        email: email,
+        code: code,
+        houseAddress: houseAddress,
+        deliveryAddress: deliveryAddress,
+        walletAmount: amount,
+        customerCode: customerCode,
+        accountNumber: accountNumber,
+        bankName: bankName,
+        bankAcctName: accountName);
 
     var data = user.toJson();
     await documentReferencer.set(data).whenComplete(() {

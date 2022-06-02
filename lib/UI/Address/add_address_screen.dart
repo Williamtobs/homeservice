@@ -10,13 +10,7 @@ import 'search_address_screen.dart';
 import 'widgets/address_tile.dart';
 
 class AddAddressScreen extends StatelessWidget {
-  final String? newAddress;
-  final String? amount;
-  final String? date;
-  final String? serviceType;
-  const AddAddressScreen(
-      {Key? key, this.newAddress, this.amount, this.date, this.serviceType})
-      : super(key: key);
+  const AddAddressScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,8 @@ import 'package:homeservice/UI/Shared/custom_navigation.dart';
 import 'package:homeservice/UI/Startup/error_screen.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen.dart';
 
+import '../Signup/VerifyEmail/verify_email_screen.dart';
+
 class AuthChecker extends ConsumerWidget {
   const AuthChecker({Key? key}) : super(key: key);
 
@@ -23,7 +25,15 @@ class AuthChecker extends ConsumerWidget {
     final _authState = ref.watch(authStateProvider);
     return _authState.when(
         data: (data) {
-          if (data != null) return CustomNavigation();
+          if (data != null) {
+            if (data.emailVerified) {
+              return CustomNavigation();
+            } else if (!data.emailVerified) {
+              data.sendEmailVerification().then((value) async {
+                return const VerifyEmail();
+              });
+            }
+          }
           print(data);
           return const OnboardingScreen();
         },

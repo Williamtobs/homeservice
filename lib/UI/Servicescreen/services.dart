@@ -421,7 +421,7 @@ class _BookServiceState extends ConsumerState<BookService> {
                               Map<String, dynamic> data =
                                   snapshot.data!.data() as Map<String, dynamic>;
                               number = data['phone'];
-                              address = data['delivery_address'];
+                              address = data['delivery_address'][0];
                               return TextButton(
                                   onPressed: () {
                                     Navigator.push(
@@ -431,7 +431,6 @@ class _BookServiceState extends ConsumerState<BookService> {
                                                 FinalizeServices(
                                                   services:
                                                       '$basketNum Cloth(es) Basket\n $otherNum Others',
-                                                  address: address!,
                                                   number: number!,
                                                   amount: '$price',
                                                   date:

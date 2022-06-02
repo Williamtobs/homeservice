@@ -6,7 +6,16 @@ class Barbing {
       dateAndTime,
       amount,
       service,
+      payFrom,
       serviceType;
-  Barbing(this.userId, this.orderId, this.address, this.phoneNumber,
-      this.dateAndTime, this.amount, this.service, this.serviceType);
+  Barbing(
+      this.userId,
+      this.orderId,
+      this.address,
+      this.phoneNumber,
+      this.dateAndTime,
+      this.amount,
+      this.service,
+      this.payFrom,
+      this.serviceType);
 }

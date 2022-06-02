@@ -22,6 +22,7 @@ class StoreDatabase {
         'phone': m.phoneNumber,
         'amount': m.amount,
         'service': m.service,
+        'pay_from': m.payFrom,
         'service_type': m.serviceType,
       }); // Adding a new document to our movies collection
       return true; // finally return true

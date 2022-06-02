@@ -5,9 +5,9 @@ import 'package:google_maps_webservice/places.dart';
 
 import '../../firebase_options.dart';
 
+//Not to use AT all
 class ChangeAddress extends StatefulWidget {
-  String? address;
-  ChangeAddress({Key? key, this.address}) : super(key: key);
+  const ChangeAddress({Key? key}) : super(key: key);
 
   @override
   State<ChangeAddress> createState() => _ChangeAddressState();
@@ -15,6 +15,7 @@ class ChangeAddress extends StatefulWidget {
 
 class _ChangeAddressState extends State<ChangeAddress> {
   TextEditingController _place = TextEditingController();
+  String? address;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +57,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
 
                         if (places != null) {
                           setState(() {
-                            widget.address = places.description.toString();
+                            address = places.description.toString();
                           });
                         }
                       },
@@ -64,7 +65,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                         height: 40,
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: ListTile(
-                          title: Text(widget.address!),
+                          title: Text(address!),
                           leading: IconButton(
                             icon: const Icon(
                               Icons.search,

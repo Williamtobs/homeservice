@@ -289,6 +289,7 @@ class _TrainBookedSummaryState extends State<TrainBookedSummary> {
                               widget.date,
                               widget.amount,
                               widget.services,
+                              'Wallet',
                               widget.serviceType,
                             );
                             await response.addNewServiceOrder(

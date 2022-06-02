@@ -15,6 +15,7 @@ import 'package:homeservice/UI/Shared/images.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
 
 import '../../Service/api_service.dart';
+import 'VerifyEmail/verify_email_screen.dart';
 import 'VerifyPhone/verify_phone.dart';
 
 class SignUp extends StatefulWidget {
@@ -36,6 +37,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController surName = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController code = TextEditingController();
+  String? customerCode;
   var uid;
   String? state;
   var service = ApiService();
@@ -50,15 +52,19 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
-  sendVerification(var data) async {
-    saveInfo(data.currentUser!.uid);
+  sendVerification(var data, String customerCode, String bankName,
+      String acctNum, String acctName) async {
+    saveInfo(data.currentUser!.uid, customerCode, bankName, acctNum, acctName);
     final User user = data.currentUser!;
     await user.sendEmailVerification().then((value) async {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => VerifyPhone(
-                phone: phone.text,
-                senderId: data.currentUser!.uid,
-              )));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const VerifyEmail()
+              // VerifyPhone(
+              //       phone: phone.text,
+              //       senderId: data.currentUser!.uid,
+              //     )
+
+              ));
     });
     print(data.currentUser!.uid);
   }
@@ -86,34 +92,82 @@ class _SignUpState extends State<SignUp> {
         }
         //print('here');
         loading();
-        service.requestId(id).then((value) async {
-          if (value == 200) {
-            await _auth
-                .signUpWithEmailAndPassword(
-                    _email.text, _password.text, context)
-                .whenComplete(() => _auth.authStateChange.listen((event) async {
-                      sendVerification(data);
-                      if (event == null) {
-                        loading();
-                        return;
-                      }
-                    }));
+        await service
+            .createCustomer(
+                _email.text, surName.text, firstName.text, '234${phone.text}')
+            .then((value) async {
+          print(value['data']['customer_code']);
+          if (value['status'] == true) {
+            await service
+                .createUserAccount(value['data']['customer_code'])
+                .then((acct) async {
+              if (acct['status'] == true) {
+                await _auth
+                    .signUpWithEmailAndPassword(
+                        _email.text, _password.text, context)
+                    .whenComplete(
+                        () => _auth.authStateChange.listen((event) async {
+                              sendVerification(
+                                data,
+                                value['data']['customer_code'],
+                                acct['data']['bank']['name'],
+                                acct['data']['account_number'],
+                                acct['data']['account_name'],
+                              );
+                              if (event == null) {
+                                loading();
+                                return;
+                              }
+                            }));
+              } else {
+                loading();
+                return;
+              }
+            });
           } else {
-            print(value);
             loading();
+            final snackBar = SnackBar(
+                backgroundColor: const Color.fromRGBO(31, 68, 141, 1),
+                content: Text(value['message'],
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontSize: 18.0)));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
             return;
           }
         });
+        // service.requestId(id).then((value) async {
+        //   if (value == 200) {
+        //     await _auth
+        //         .signUpWithEmailAndPassword(
+        //             _email.text, _password.text, context)
+        //         .whenComplete(() => _auth.authStateChange.listen((event) async {
+        //               await service
+        //                   .createCustomer(_email.text, surName.text,
+        //                       firstName.text, '234${phone.text}')
+        //                   .then((value) async {
+        //                 if (value['status'] == true) {
+        //                   print(value['data']['customer_code']);
+        //                   sendVerification(
+        //                       data, value['data']['customer_code']);
+        //                 } else {
+        //                   loading();
+        //                   return;
+        //                 }
+        //               });
+        //               if (event == null) {
+        //                 loading();
+        //                 return;
+        //               }
+        //             }));
+        //   } else {
+        //     print(value);
+        //     loading();
+        //     return;
+        //   }
+        // });
       }
-      //service.requestId(id).then((value) {
-      //   if (value == 200) {
-      //     sendVerification(data);
-      //   } else {
-      //     print(value);
-      //     loading();
-      //     return;
-      //   }
-      // });
 
       return Form(
         key: _formKey,
@@ -412,7 +466,8 @@ class _SignUpState extends State<SignUp> {
 
   var setup = Database();
 
-  saveInfo(var uid) async {
+  saveInfo(var uid, String customerCode, String bankName, String acctNum,
+      String acctName) async {
     //print(state);
     await setup.storeUserData(
         uid: uid,
@@ -424,6 +479,18 @@ class _SignUpState extends State<SignUp> {
         lastName: surName.text.trim(),
         amount: '0',
         houseAddress: '',
-        deliveryAddress: ['']);
+        deliveryAddress: [''],
+        customerCode: customerCode,
+        bankName: bankName,
+        accountNumber: acctNum,
+        accountName: acctName);
   }
+
+  var actionCodeSettings = ActionCodeSettings(
+    url: 'https://testapp.page.link/',
+    androidPackageName: 'com.example.test',
+    androidInstallApp: true,
+    androidMinimumVersion: '1',
+    handleCodeInApp: true,
+  );
 }

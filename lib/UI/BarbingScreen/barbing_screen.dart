@@ -379,7 +379,7 @@ class _BarbingScreenState extends ConsumerState<BarbingScreen> {
                           Map<String, dynamic> data =
                               snapshot.data!.data() as Map<String, dynamic>;
                           number = data['phone'];
-                          address = data['delivery_address'];
+                          address = data['delivery_address'][0];
                           return TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -387,7 +387,6 @@ class _BarbingScreenState extends ConsumerState<BarbingScreen> {
                                     MaterialPageRoute(
                                         builder: (context) => FinalizeServices(
                                               services: service,
-                                              address: address!,
                                               number: number!,
                                               amount: serviceAmount,
                                               date:

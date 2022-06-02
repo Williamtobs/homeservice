@@ -14,6 +14,7 @@ import '../Shared/images.dart';
 import 'add_address_screen.dart';
 import 'notifier/value_notifier.dart';
 
+//Not to use
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
@@ -185,7 +186,7 @@ class _MapScreenState extends State<MapScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => AddAddressScreen(
-                          newAddress: newAddress,
+                        //newAddress: newAddress,
                         )));
           },
           child: const Icon(
