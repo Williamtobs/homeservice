@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeservice/UI/Shared/custom_navigation.dart';
 
 class DialogMessage extends StatelessWidget {
   final String message;
   final String subMessage;
   final String response;
   final String image;
+  final bool failed;
   const DialogMessage(
       {Key? key,
       required this.message,
       required this.subMessage,
       required this.response,
-      required this.image})
+      required this.image,
+      required this.failed})
       : super(key: key);
 
   @override
@@ -45,11 +48,14 @@ class DialogMessage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Text(subMessage,
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                    fontSize: 14.0)),
+            Center(
+              child: Text(subMessage,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                      fontSize: 14.0)),
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -60,7 +66,16 @@ class DialogMessage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (failed) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (context) {
+                        return CustomNavigation();
+                      }), (route) => false);
+                    }
+                  },
                   child: Text(response,
                       style: GoogleFonts.montserrat(
                           fontWeight: FontWeight.w400,

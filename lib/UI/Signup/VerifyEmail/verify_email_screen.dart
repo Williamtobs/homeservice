@@ -57,7 +57,7 @@ class VerifyEmail extends StatelessWidget {
             Image.asset(email),
             //Color.fromRGBO(31, 68, 141, 1),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             SizedBox(
               width: 150,
@@ -72,18 +72,15 @@ class VerifyEmail extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            SizedBox(
-              width: 250,
-              child: Text(
-                  'Please check your email for confirmation mail. Click link in '
-                  'email to verify your account',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.normal,
-                      color: const Color.fromRGBO(0, 0, 0, 1),
-                      fontSize: 14.0)),
-            ),
+            Text(
+                'Please check your email for confirmation mail. Click link in '
+                'email to verify your account',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.normal,
+                    color: const Color.fromRGBO(0, 0, 0, 1),
+                    fontSize: 14.0)),
             const SizedBox(
               height: 40,
             ),

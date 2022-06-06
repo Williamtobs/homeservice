@@ -7,7 +7,8 @@ class Barbing {
       amount,
       service,
       payFrom,
-      serviceType;
+      serviceType,
+      process;
   Barbing(
       this.userId,
       this.orderId,
@@ -17,5 +18,6 @@ class Barbing {
       this.amount,
       this.service,
       this.payFrom,
-      this.serviceType);
+      this.serviceType,
+      this.process);
 }

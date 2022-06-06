@@ -11,6 +11,7 @@ import '../../Constants/time.dart';
 import '../../Providers/auth_providers.dart';
 import '../../Providers/services_data_provider.dart';
 import '../ReviewService/finalize_services.dart';
+import '../Shared/snackbar.dart';
 
 class BookService extends ConsumerStatefulWidget {
   final String name;
@@ -344,7 +345,6 @@ class _BookServiceState extends ConsumerState<BookService> {
                               return GestureDetector(
                                 onTap: () {
                                   selected(times[index]);
-                                  print(times[index]);
                                 },
                                 child: Container(
                                   width: 80,
@@ -424,21 +424,29 @@ class _BookServiceState extends ConsumerState<BookService> {
                               address = data['delivery_address'][0];
                               return TextButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                FinalizeServices(
-                                                  services:
-                                                      '$basketNum Cloth(es) Basket\n $otherNum Others',
-                                                  number: number!,
-                                                  amount: '$price',
-                                                  date:
-                                                      '${selectedDate.characters.take(10)}' +
-                                                          " " +
-                                                          time,
-                                                  serviceType: widget.name,
-                                                )));
+                                    if ('$price'.length < 2 ||
+                                        time.length < 2 ||
+                                        selectedDate.length < 2 ||
+                                        widget.name.length < 2) {
+                                      CustomWidgets.buildSnackbar(
+                                          context, 'Select all Option');
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FinalizeServices(
+                                                    services:
+                                                        '$basketNum Cloth(es) Basket\n $otherNum Others',
+                                                    number: number!,
+                                                    amount: '$price',
+                                                    date:
+                                                        '${selectedDate.characters.take(10)}' +
+                                                            " " +
+                                                            time,
+                                                    serviceType: widget.name,
+                                                  )));
+                                    }
                                   },
                                   child: Text('Pay',
                                       style: GoogleFonts.montserrat(
@@ -457,9 +465,7 @@ class _BookServiceState extends ConsumerState<BookService> {
         );
       },
       error: (e, s) {
-        if (kDebugMode) {
-          print('Error');
-        }
+        if (kDebugMode) {}
         return Scaffold(
             backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
             appBar: PreferredSize(
@@ -471,9 +477,7 @@ class _BookServiceState extends ConsumerState<BookService> {
                 child: Text('Can not fetch data - check internet connection')));
       },
       loading: () {
-        if (kDebugMode) {
-          print('loading');
-        }
+        if (kDebugMode) {}
         return Scaffold(
             backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
             appBar: PreferredSize(
@@ -492,7 +496,6 @@ class _BookServiceState extends ConsumerState<BookService> {
       } else if (args.value is DateTime) {
         DateFormat formatter = DateFormat('dd-MM-yyyy');
         selectedDate = formatter.format(args.value);
-        print(selectedDate);
       } else if (args.value is List<DateTime>) {
       } else {}
     });

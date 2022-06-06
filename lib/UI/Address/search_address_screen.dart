@@ -23,10 +23,9 @@ class _SearchAddressScreenState extends State<SearchAddressScreen> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       sharePref();
-      final data = ref.watch(fireBaseAuthProvider);
+      final data = ref.read(fireBaseAuthProvider);
       void onPressed() {
         if (_controller.text.length > 5) {
-          print('yes');
           saveInfo(data.currentUser!.uid);
         }
       }
@@ -57,11 +56,9 @@ class _SearchAddressScreenState extends State<SearchAddressScreen> {
                             hint: "Enter address",
                             onSelect: (place) {
                               _controller.text = place.placeName!;
-                              print(_controller.text);
                             },
                             limit: 10,
-                            location: Location(
-                                lat: 7.3869305195386685, lng: 3.90506049284018),
+                            location: Location(lat: 7.41097, lng: 3.91391),
                             country: "NG",
                           );
                         })));
@@ -96,10 +93,28 @@ class _SearchAddressScreenState extends State<SearchAddressScreen> {
 
   var setup = Database();
   saveInfo(var uid) async {
-    addressList!.add(_controller.text);
-    print(addressList);
-    await setup.updateServiceAddress(
-        uid: uid, addressList: addressList!, context: context);
+    if (addressList![0].length < 2) {
+      addressList!.removeAt(0);
+      if (addressList!.contains(_controller.text)) {
+        final snackBar = SnackBar(
+            backgroundColor: const Color.fromRGBO(31, 68, 141, 1),
+            content: Text('Address Already exist',
+                style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontSize: 14.0)));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        addressList!.add(_controller.text);
+        await setup.updateServiceAddress(
+            uid: uid, addressList: addressList!, context: context);
+      }
+    } else {
+      addressList!.add(_controller.text);
+      print(addressList);
+      await setup.updateServiceAddress(
+          uid: uid, addressList: addressList!, context: context);
+    }
   }
 
   sharePref() async {

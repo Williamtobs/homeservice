@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Providers/users_data_provider.dart';
 import '../Shared/app_bar.dart';
+import '../Shared/snackbar.dart';
 import 'search_address_screen.dart';
 import 'widgets/address_tile.dart';
 
@@ -53,19 +54,31 @@ class AddAddressScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: addressList.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {},
-                        child: AddressTile(
-                          address: addressList[index],
-                          num: '${index + 1}',
+                  addressList.length < 2 && addressList[0].length < 2
+                      ? Center(
+                          child: Text(
+                              'No Delivery address added, add new address',
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(0, 0, 0, 1),
+                                  fontSize: 16.0)),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: addressList.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                saveDeliveryAddress(
+                                    addressList[index], context);
+                              },
+                              child: AddressTile(
+                                address: addressList[index],
+                                num: '${index + 1}',
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
                 ],
               ),
             ),
@@ -91,6 +104,12 @@ class AddAddressScreen extends StatelessWidget {
         },
       );
     });
+  }
+
+  saveDeliveryAddress(String add, BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("deliveryAdd", add);
+    CustomWidgets.buildSnackbar(context, "Delivery Address selected");
   }
 
   sharePref(List<String> strList) async {

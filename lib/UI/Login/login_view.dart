@@ -37,9 +37,7 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(() {
-      print(_focusNode.hasFocus);
-    });
+    _focusNode.addListener(() {});
   }
 
   void loading() {
@@ -92,6 +90,7 @@ class _LoginState extends State<Login> {
                     loading();
                   }
                 }));
+        loading();
       }
 
       return Scaffold(

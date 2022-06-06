@@ -18,7 +18,7 @@ class Authentication {
         context: context,
         builder: (ctx) => AlertDialog(
           title: Text(Errors.show(e.code)),
-          content: Text(e.toString()),
+          content: Text(e.message!),
           actions: [
             TextButton(
                 onPressed: () {

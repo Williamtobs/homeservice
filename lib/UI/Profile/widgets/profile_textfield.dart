@@ -9,6 +9,7 @@ class ProfileTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: false,
       controller: controller,
       decoration: InputDecoration(
         filled: true,

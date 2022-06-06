@@ -96,7 +96,7 @@ class ApiService {
       'phone': phone,
     };
     var header = {
-      'Authorization': 'Bearer ${ApiBase.paystackPublicKey}',
+      'Authorization': 'Bearer ${ApiBase.paystackSecretKey}',
       'Content-Type': 'application/json',
     };
     try {
@@ -159,10 +159,10 @@ class ApiService {
     Response response;
     Map<String, dynamic>? body = {
       'customer': customerId,
-      'preferred_bank': 'wema-bank'
+      //'preferred_bank': 'wema-bank'
     };
     var header = {
-      'Authorization': 'Bearer ${ApiBase.paystackPublicKey}',
+      'Authorization': 'Bearer ${ApiBase.paystackSecretKey}',
       'Content-Type': 'application/json',
     };
     try {

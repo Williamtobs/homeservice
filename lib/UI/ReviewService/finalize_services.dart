@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Database/orders_database.dart';
 import '../../Model/orders.dart';
@@ -16,7 +17,6 @@ import '../Address/add_address_screen.dart';
 import '../Shared/app_bar.dart';
 import '../Shared/dialog.dart';
 import '../Shared/images.dart';
-import 'change_address.dart';
 
 class FinalizeServices extends StatefulWidget {
   final String serviceType;
@@ -44,17 +44,20 @@ class _FinalizeServicesState extends State<FinalizeServices> {
   String? address;
   String? walletBalance;
   String? email;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final plugin = PaystackPlugin();
 
   @override
   void initState() {
     _getReference();
+    getDelivery();
     plugin.initialize(publicKey: ApiBase.paystackPublicKey);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    getDelivery();
     String generateRandomString(int len) {
       var r = Random();
       const _chars =
@@ -70,7 +73,7 @@ class _FinalizeServicesState extends State<FinalizeServices> {
           .collection('Users')
           .doc(datas.currentUser!.uid)
           .snapshots();
-      final doc = FirebaseFirestore.instance
+      FirebaseFirestore.instance
           .collection('Users')
           .doc(datas.currentUser!.uid)
           .get()
@@ -152,7 +155,7 @@ class _FinalizeServicesState extends State<FinalizeServices> {
                                     Map<String, dynamic> data = snapshot.data!
                                         .data() as Map<String, dynamic>;
                                     address = data['delivery_address'][0];
-                                    return Text(address!,
+                                    return Text(deliveryAdd ?? address!,
                                         style: GoogleFonts.montserrat(
                                             fontWeight: FontWeight.w400,
                                             color: const Color.fromRGBO(
@@ -339,77 +342,108 @@ class _FinalizeServicesState extends State<FinalizeServices> {
                                   walletBalance = data['wallet_amount'];
                                   return TextButton(
                                       onPressed: () async {
-                                        if (int.parse(walletBalance!) <
-                                            int.parse(widget.amount)) {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return const DialogMessage(
-                                                  message: 'Order Unsuccessful',
-                                                  subMessage:
-                                                      'Your order could not be placed',
-                                                  response: 'Close',
-                                                  image: cancelIcon,
-                                                );
-                                              });
-                                          final snackBar = SnackBar(
-                                              backgroundColor:
-                                                  const Color.fromRGBO(
-                                                      31, 68, 141, 1),
-                                              content: Text(
-                                                  'Insufficient Balance, Top up wallet. Or pay through Paystack',
-                                                  style: GoogleFonts.montserrat(
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Colors.white,
-                                                      fontSize: 14.0)));
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
+                                        if (address!.length > 2) {
+                                          if (int.parse(walletBalance!) <
+                                              int.parse(widget.amount)) {
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return const DialogMessage(
+                                                    message:
+                                                        'Order Unsuccessful',
+                                                    subMessage:
+                                                        'Your order could not be placed \nInsufficient Balance, Top up wallet. Or pay through Paystack',
+                                                    response: 'Close',
+                                                    image: cancelIcon,
+                                                    failed: true,
+                                                  );
+                                                });
+                                            final snackBar = SnackBar(
+                                                backgroundColor:
+                                                    const Color.fromRGBO(
+                                                        31, 68, 141, 1),
+                                                content: Text(
+                                                    'Insufficient Balance, Top up wallet. Or pay through Paystack',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Colors.white,
+                                                            fontSize: 14.0)));
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                          } else {
+                                            final response = ref
+                                                .read(barbingDatabaseProvider);
+                                            final User user = auth.currentUser!;
+                                            FirebaseFirestore.instance
+                                                .collection('Users')
+                                                .doc(user.uid)
+                                                .update({
+                                              'wallet_amount':
+                                                  '${int.parse(walletBalance!) - int.parse(widget.amount)}'
+                                            });
+                                            Barbing service = Barbing(
+                                                datas.currentUser!.uid,
+                                                v1Exact,
+                                                address!,
+                                                widget.number,
+                                                widget.date,
+                                                widget.amount,
+                                                widget.services,
+                                                'Wallet',
+                                                widget.serviceType,
+                                                'pending');
+                                            await response.addNewServiceOrder(
+                                                service,
+                                                datas.currentUser!.uid,
+                                                v1Exact);
+                                            setState(() {
+                                              loading = false;
+                                            });
+                                            final snackBar = SnackBar(
+                                                backgroundColor:
+                                                    const Color.fromRGBO(
+                                                        31, 68, 141, 1),
+                                                content: Text(
+                                                    'Successful! Your order has been placed',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Colors.white,
+                                                            fontSize: 14.0)));
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return const DialogMessage(
+                                                    message: 'Order Successful',
+                                                    subMessage:
+                                                        'Your order have been placed and will be processed soon',
+                                                    response: 'Go Home',
+                                                    image: checkDialog,
+                                                    failed: false,
+                                                  );
+                                                });
+                                          }
                                         } else {
-                                          final response =
-                                              ref.read(barbingDatabaseProvider);
-                                          Barbing service = Barbing(
-                                            datas.currentUser!.uid,
-                                            v1Exact,
-                                            address!,
-                                            widget.number,
-                                            widget.date,
-                                            widget.amount,
-                                            widget.services,
-                                            'Wallet',
-                                            widget.serviceType,
-                                          );
-                                          await response.addNewServiceOrder(
-                                              service,
-                                              datas.currentUser!.uid,
-                                              v1Exact);
-                                          setState(() {
-                                            loading = false;
-                                          });
                                           final snackBar = SnackBar(
                                               backgroundColor:
                                                   const Color.fromRGBO(
                                                       31, 68, 141, 1),
                                               content: Text(
-                                                  'Successful! Your order has been placed',
+                                                  'Process failed! Choose delivery address',
                                                   style: GoogleFonts.montserrat(
                                                       fontWeight:
-                                                          FontWeight.w400,
+                                                          FontWeight.w600,
                                                       color: Colors.white,
                                                       fontSize: 14.0)));
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return const DialogMessage(
-                                                  message: 'Order Successful',
-                                                  subMessage:
-                                                      'Your order have been placed and will be processed soon',
-                                                  response: 'Go Home',
-                                                  image: checkDialog,
-                                                );
-                                              });
                                         }
                                       },
                                       child: Padding(
@@ -428,55 +462,63 @@ class _FinalizeServicesState extends State<FinalizeServices> {
                             ),
                             child: TextButton(
                               onPressed: () async {
-                                bool response = await _payWithPaystackCard();
-                                if (response == true) {
-                                  final response =
-                                      ref.read(barbingDatabaseProvider);
-                                  Barbing service = Barbing(
-                                    datas.currentUser!.uid,
-                                    v1Exact,
-                                    address!,
-                                    widget.number,
-                                    widget.date,
-                                    widget.amount,
-                                    widget.services,
-                                    'Paystack',
-                                    widget.serviceType,
-                                  );
-                                  await response.addNewServiceOrder(
-                                      service, datas.currentUser!.uid, v1Exact);
-                                  setState(() {
-                                    loading = false;
-                                  });
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return const DialogMessage(
-                                          message: 'Order Successful',
-                                          subMessage:
-                                              'Your order have been placed and will be processed soon',
-                                          response: 'Go Home',
-                                          image: checkDialog,
-                                        );
-                                      });
+                                if (address!.length > 2) {
+                                  bool response = await _payWithPaystackCard();
+                                  if (response == true) {
+                                    final response =
+                                        ref.read(barbingDatabaseProvider);
+                                    Barbing service = Barbing(
+                                        datas.currentUser!.uid,
+                                        v1Exact,
+                                        address!,
+                                        widget.number,
+                                        widget.date,
+                                        widget.amount,
+                                        widget.services,
+                                        'Paystack',
+                                        widget.serviceType,
+                                        'pending');
+                                    await response.addNewServiceOrder(service,
+                                        datas.currentUser!.uid, v1Exact);
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return const DialogMessage(
+                                            message: 'Order Successful',
+                                            subMessage:
+                                                'Your order have been placed and will be processed soon',
+                                            response: 'Go Home',
+                                            image: checkDialog,
+                                            failed: false,
+                                          );
+                                        });
+                                    final snackBar = SnackBar(
+                                        backgroundColor: const Color.fromRGBO(
+                                            31, 68, 141, 1),
+                                        content: Text(
+                                            'Successful! Your order has been placed',
+                                            style: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.white,
+                                                fontSize: 14.0)));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+                                } else {
                                   final snackBar = SnackBar(
                                       backgroundColor:
                                           const Color.fromRGBO(31, 68, 141, 1),
                                       content: Text(
-                                          'Successful! Your order has been placed',
+                                          'Process failed! Choose delivery address',
                                           style: GoogleFonts.montserrat(
-                                              fontWeight: FontWeight.w400,
+                                              fontWeight: FontWeight.w600,
                                               color: Colors.white,
                                               fontSize: 14.0)));
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
-                                  const DialogMessage(
-                                    message: 'Order Successful',
-                                    subMessage:
-                                        'Your order have been placed and will be processed soon',
-                                    response: 'Go Home',
-                                    image: checkDialog,
-                                  );
                                 }
                               },
                               child: Padding(
@@ -489,89 +531,7 @@ class _FinalizeServicesState extends State<FinalizeServices> {
                               ),
                             )),
                       ],
-                    )
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     color: const Color.fromRGBO(31, 68, 141, 1),
-                    //     borderRadius: BorderRadius.circular(25),
-                    //   ),
-                    //   width: MediaQuery.of(context).size.width,
-                    //   child: TextButton(
-                    //     onPressed: () async {
-                    //       setState(() {
-                    //         loading = true;
-                    //       });
-                    //       final response = ref.read(barbingDatabaseProvider);
-                    //       try {
-                    //         if (widget.address.length > 2) {
-                    //           Barbing service = Barbing(
-                    //             data.currentUser!.uid,
-                    //             v1_exact,
-                    //             widget.address,
-                    //             widget.number,
-                    //             widget.date,
-                    //             widget.amount,
-                    //             widget.services,
-                    //             widget.serviceType,
-                    //           );
-                    //           await response.addNewServiceOrder(
-                    //               service, data.currentUser!.uid, v1_exact);
-                    //           setState(() {
-                    //             loading = false;
-                    //           });
-                    //           final snackBar = SnackBar(
-                    //               backgroundColor:
-                    //                   const Color.fromRGBO(31, 68, 141, 1),
-                    //               content: Text(
-                    //                   'Successful! Your order has been placed',
-                    //                   style: GoogleFonts.montserrat(
-                    //                       fontWeight: FontWeight.w600,
-                    //                       color: Colors.white,
-                    //                       fontSize: 18.0)));
-                    //           ScaffoldMessenger.of(context)
-                    //               .showSnackBar(snackBar);
-                    //         } else {
-                    //           final snackBar = SnackBar(
-                    //               backgroundColor:
-                    //                   const Color.fromRGBO(31, 68, 141, 1),
-                    //               content: Text(
-                    //                   'Process failed! Choose delivery address',
-                    //                   style: GoogleFonts.montserrat(
-                    //                       fontWeight: FontWeight.w600,
-                    //                       color: Colors.white,
-                    //                       fontSize: 18.0)));
-                    //           ScaffoldMessenger.of(context)
-                    //               .showSnackBar(snackBar);
-                    //         }
-                    //       } catch (e) {
-                    //         setState(() {
-                    //           loading = false;
-                    //           error = e.toString();
-                    //         });
-                    //         final snackBar = SnackBar(
-                    //             backgroundColor:
-                    //                 const Color.fromRGBO(31, 68, 141, 1),
-                    //             content: Text(
-                    //                 'Error! $error or something went wrong',
-                    //                 style: GoogleFonts.montserrat(
-                    //                     fontWeight: FontWeight.w600,
-                    //                     color: Colors.white,
-                    //                     fontSize: 18.0)));
-                    //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    //       }
-                    //     },
-                    //     child: loading == true
-                    //         ? const CircularProgressIndicator(
-                    //             color: Colors.white,
-                    //           )
-                    //         : Text('Continue',
-                    //             style: GoogleFonts.montserrat(
-                    //                 fontWeight: FontWeight.w400,
-                    //                 color: Colors.white,
-                    //                 fontSize: 16.0)),
-                    //   ),
-                    // ),
-                    ),
+                    )),
               )
             ],
           ),
@@ -580,9 +540,16 @@ class _FinalizeServicesState extends State<FinalizeServices> {
     });
   }
 
+  String? deliveryAdd;
+
   String _getReference() {
     final thisDate = DateTime.now().millisecondsSinceEpoch;
     return 'Charged From_$thisDate';
+  }
+
+  void getDelivery() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    deliveryAdd = prefs.getString("deliveryAdd");
   }
 
   void _showMessage(String message) {

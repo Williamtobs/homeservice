@@ -6,8 +6,6 @@ import 'package:homeservice/Model/update_email.dart';
 import 'package:homeservice/Model/update_phone.dart';
 import 'package:homeservice/Model/user.dart';
 
-import '../Model/update_delivery_address.dart';
-
 class Database {
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('Users');
@@ -72,9 +70,8 @@ class Database {
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  fontSize: 16.0)));
+                  fontSize: 14.0)));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      print("User data added");
     }).catchError((e) {
       final snackBar = SnackBar(
           backgroundColor: const Color.fromRGBO(31, 68, 141, 1),
