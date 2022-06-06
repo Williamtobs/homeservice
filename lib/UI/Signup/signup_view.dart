@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,11 +11,12 @@ import 'package:homeservice/Providers/auth_providers.dart';
 import 'package:homeservice/UI/Login/login_view.dart';
 import 'package:homeservice/UI/Shared/Formfield/create_passwordfield.dart';
 import 'package:homeservice/UI/Shared/Formfield/textformfield_view.dart';
-import 'package:homeservice/UI/Shared/custom_navigation.dart';
 import 'package:homeservice/UI/Shared/images.dart';
 import 'package:homeservice/UI/Startup/onboarding_screen2.dart';
 
+import '../../Service/api_service.dart';
 import 'VerifyEmail/verify_email_screen.dart';
+import 'VerifyPhone/verify_phone.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -34,8 +37,10 @@ class _SignUpState extends State<SignUp> {
   TextEditingController surName = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController code = TextEditingController();
+  String? customerCode;
   var uid;
   String? state;
+  var service = ApiService();
 
   void _onRememberMeChanged(bool? newValue) => setState(() {
         agree = newValue!;
@@ -47,8 +52,34 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
+  sendVerification(var data, String customerCode, String bankName,
+      String acctNum, String acctName) async {
+    saveInfo(data.currentUser!.uid, customerCode, bankName, acctNum, acctName);
+    final User user = data.currentUser!;
+    await user.sendEmailVerification().then((value) async {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const VerifyEmail()
+              // VerifyPhone(
+              //       phone: phone.text,
+              //       senderId: data.currentUser!.uid,
+              //     )
+
+              ));
+    });
+    print(data.currentUser!.uid);
+  }
+
   @override
   Widget build(BuildContext context) {
+    String generateRandomString(int len) {
+      var r = Random();
+      const _chars =
+          'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+      return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+          .join();
+    }
+
+    var id = generateRandomString(10);
     return Consumer(builder: (context, ref, _) {
       final _auth = ref.watch(authenticationProvider);
       final data = ref.watch(fireBaseAuthProvider);
@@ -61,21 +92,81 @@ class _SignUpState extends State<SignUp> {
         }
         //print('here');
         loading();
-        await _auth
-            .signUpWithEmailAndPassword(_email.text, _password.text, context)
-            .whenComplete(() => _auth.authStateChange.listen((event) async {
-                  if (event == null) {
-                    loading();
-                    return;
-                  }
-                  saveInfo(data.currentUser!.uid);
-                  final User user = data.currentUser!;
-                  await user.sendEmailVerification().then((value) async {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const VerifyEmail()));
-                  });
-                  print(data.currentUser!.uid);
-                }));
+        await service
+            .createCustomer(
+                _email.text, surName.text, firstName.text, '234${phone.text}')
+            .then((value) async {
+          print(value['data']['customer_code']);
+          if (value['status'] == true) {
+            await service
+                .createUserAccount(value['data']['customer_code'])
+                .then((acct) async {
+              if (acct['status'] == true) {
+                await _auth
+                    .signUpWithEmailAndPassword(
+                        _email.text, _password.text, context)
+                    .whenComplete(
+                        () => _auth.authStateChange.listen((event) async {
+                              sendVerification(
+                                data,
+                                value['data']['customer_code'],
+                                acct['data']['bank']['name'],
+                                acct['data']['account_number'],
+                                acct['data']['account_name'],
+                              );
+                              if (event == null) {
+                                loading();
+                                return;
+                              }
+                            }));
+              } else {
+                loading();
+                return;
+              }
+            });
+          } else {
+            loading();
+            final snackBar = SnackBar(
+                backgroundColor: const Color.fromRGBO(31, 68, 141, 1),
+                content: Text(value['message'],
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontSize: 18.0)));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            return;
+          }
+        });
+        // service.requestId(id).then((value) async {
+        //   if (value == 200) {
+        //     await _auth
+        //         .signUpWithEmailAndPassword(
+        //             _email.text, _password.text, context)
+        //         .whenComplete(() => _auth.authStateChange.listen((event) async {
+        //               await service
+        //                   .createCustomer(_email.text, surName.text,
+        //                       firstName.text, '234${phone.text}')
+        //                   .then((value) async {
+        //                 if (value['status'] == true) {
+        //                   print(value['data']['customer_code']);
+        //                   sendVerification(
+        //                       data, value['data']['customer_code']);
+        //                 } else {
+        //                   loading();
+        //                   return;
+        //                 }
+        //               });
+        //               if (event == null) {
+        //                 loading();
+        //                 return;
+        //               }
+        //             }));
+        //   } else {
+        //     print(value);
+        //     loading();
+        //     return;
+        //   }
+        // });
       }
 
       return Form(
@@ -375,7 +466,8 @@ class _SignUpState extends State<SignUp> {
 
   var setup = Database();
 
-  saveInfo(var uid) async {
+  saveInfo(var uid, String customerCode, String bankName, String acctNum,
+      String acctName) async {
     //print(state);
     await setup.storeUserData(
         uid: uid,
@@ -387,6 +479,18 @@ class _SignUpState extends State<SignUp> {
         lastName: surName.text.trim(),
         amount: '0',
         houseAddress: '',
-        deliveryAddress: '');
+        deliveryAddress: [''],
+        customerCode: customerCode,
+        bankName: bankName,
+        accountNumber: acctNum,
+        accountName: acctName);
   }
+
+  var actionCodeSettings = ActionCodeSettings(
+    url: 'https://testapp.page.link/',
+    androidPackageName: 'com.example.test',
+    androidInstallApp: true,
+    androidMinimumVersion: '1',
+    handleCodeInApp: true,
+  );
 }

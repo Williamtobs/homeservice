@@ -11,6 +11,7 @@ import '../../Constants/time.dart';
 import '../../Providers/auth_providers.dart';
 import '../ReviewService/finalize_services.dart';
 import '../Shared/app_bar.dart';
+import '../Shared/snackbar.dart';
 
 class BarbingScreen extends ConsumerStatefulWidget {
   final String name;
@@ -265,7 +266,6 @@ class _BarbingScreenState extends ConsumerState<BarbingScreen> {
                     child: SfDateRangePicker(
                       enablePastDates: false,
                       minDate: DateTime.now(),
-                      //initialSelectedDate: DateTime.now(),
                       selectionMode: DateRangePickerSelectionMode.single,
                       onSelectionChanged: _onSelectionChanged,
                     ),
@@ -300,9 +300,7 @@ class _BarbingScreenState extends ConsumerState<BarbingScreen> {
                           return GestureDetector(
                             onTap: () {
                               selected(times[index]);
-                              if (kDebugMode) {
-                                print(times[index]);
-                              }
+                              if (kDebugMode) {}
                             },
                             child: Container(
                               width: 80,
@@ -379,23 +377,32 @@ class _BarbingScreenState extends ConsumerState<BarbingScreen> {
                           Map<String, dynamic> data =
                               snapshot.data!.data() as Map<String, dynamic>;
                           number = data['phone'];
-                          address = data['delivery_address'];
+                          address = data['delivery_address'][0];
                           return TextButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FinalizeServices(
-                                              services: service,
-                                              address: address!,
-                                              number: number!,
-                                              amount: serviceAmount,
-                                              date:
-                                                  '${selectedDate.characters.take(10)}' +
-                                                      " " +
-                                                      time,
-                                              serviceType: widget.name,
-                                            )));
+                                if (service.length < 2 ||
+                                    serviceAmount.length < 2 ||
+                                    time.length < 2 ||
+                                    selectedDate.length < 2 ||
+                                    widget.name.length < 2) {
+                                  CustomWidgets.buildSnackbar(
+                                      context, 'Select all Option');
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              FinalizeServices(
+                                                services: service,
+                                                number: number!,
+                                                amount: serviceAmount,
+                                                date:
+                                                    '${selectedDate.characters.take(10)}' +
+                                                        " " +
+                                                        time,
+                                                serviceType: widget.name,
+                                              )));
+                                }
                               },
                               child: Text('Pay',
                                   style: GoogleFonts.montserrat(
@@ -420,7 +427,6 @@ class _BarbingScreenState extends ConsumerState<BarbingScreen> {
       } else if (args.value is DateTime) {
         DateFormat formatter = DateFormat('dd-MM-yyyy');
         selectedDate = formatter.format(args.value);
-        print(selectedDate);
       } else if (args.value is List<DateTime>) {
       } else {}
     });

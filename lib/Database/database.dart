@@ -29,13 +29,13 @@ class Database {
       print("User data added");
     }).catchError((e) {
       final snackBar = SnackBar(
-              backgroundColor: const Color.fromRGBO(31, 68, 141, 1),
-              content: Text('Process failed! Something went wrong',
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                      fontSize: 16.0)));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          backgroundColor: const Color.fromRGBO(31, 68, 141, 1),
+          content: Text('Process failed! Something went wrong',
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  fontSize: 16.0)));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       print(e);
       return;
     });
@@ -53,6 +53,39 @@ class Database {
     });
   }
 
+  updateServiceAddress(
+      {required var uid,
+      required List<String> addressList,
+      required BuildContext context}) async {
+    DocumentReference documentReferencer = userCollection.doc(uid);
+    // UpdateServiceAddress updateServiceAddress =
+    //     UpdateServiceAddress(address: address);
+    // var data = updateServiceAddress.toJson();
+    await documentReferencer.update({
+      "delivery_address": FieldValue.arrayUnion(addressList)
+    }).whenComplete(() {
+      final snackBar = SnackBar(
+          backgroundColor: const Color.fromRGBO(31, 68, 141, 1),
+          content: Text('Address Successfully Added',
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  fontSize: 14.0)));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }).catchError((e) {
+      final snackBar = SnackBar(
+          backgroundColor: const Color.fromRGBO(31, 68, 141, 1),
+          content: Text('Process failed! Something went wrong',
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  fontSize: 16.0)));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      print(e);
+      return;
+    });
+  }
+
   storeUserData({
     required var uid,
     required String firstName,
@@ -62,8 +95,12 @@ class Database {
     required String email,
     required String code,
     required String houseAddress,
-    required String deliveryAddress,
+    required List<String> deliveryAddress,
     required String amount,
+    required String customerCode,
+    required String bankName,
+    required String accountNumber,
+    required String accountName,
   }) async {
     //uid = _auth.currentUser?.uid;
     DocumentReference documentReferencer = userCollection.doc(uid);
@@ -71,17 +108,20 @@ class Database {
       print(uid);
     }
     Users user = Users(
-      uid: uid,
-      firstName: firstName,
-      lastName: lastName,
-      phone: phone,
-      state: state,
-      email: email,
-      code: code,
-      houseAddress: houseAddress,
-      deliveryAddress: deliveryAddress,
-      walletAmount: amount,
-    );
+        uid: uid,
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        state: state,
+        email: email,
+        code: code,
+        houseAddress: houseAddress,
+        deliveryAddress: deliveryAddress,
+        walletAmount: amount,
+        customerCode: customerCode,
+        accountNumber: accountNumber,
+        bankName: bankName,
+        bankAcctName: accountName);
 
     var data = user.toJson();
     await documentReferencer.set(data).whenComplete(() {

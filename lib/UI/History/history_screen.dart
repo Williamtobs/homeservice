@@ -63,7 +63,22 @@ class HistoryScreen extends StatelessWidget {
                     final items = _historyList![index];
                     //print(_historyList![index].id);
                     if (_historyList!.isEmpty) {
-                      return const Center(child: Text('No recent order'));
+                      return Center(
+                          child: Text('No recent order',
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal,
+                                  color: Colors.black,
+                                  fontSize: 14.0)));
+                    }
+                    if (!_historyList!.contains(items['uid'])) {
+                      return Center(
+                          child: Text('No recent order',
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal,
+                                  color: Colors.black,
+                                  fontSize: 14.0)));
                     }
                     if (items['uid'] == data.currentUser!.uid) {
                       return GestureDetector(

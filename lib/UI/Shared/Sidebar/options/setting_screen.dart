@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../Address/add_address_screen.dart';
 import '../../../Profile/UpdateEmail/update_email_screen.dart';
 import '../../../Profile/UpdatePassword/change_password.dart';
 import '../../../Profile/UpdatePhone/change_phone.dart';
@@ -126,12 +127,19 @@ class SettingScreen extends StatelessWidget {
             height: 1,
             color: Color.fromRGBO(250, 250, 250, 1),
           ),
-          const SettingListTile(
-            icon: Icon(
-              Icons.local_shipping,
-              color: Color.fromARGB(255, 14, 13, 13),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: ((context) {
+                return const AddAddressScreen();
+              })));
+            },
+            child: const SettingListTile(
+              icon: Icon(
+                Icons.local_shipping,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+              title: 'Delivery Address',
             ),
-            title: 'Delivery Address',
           ),
           const SizedBox(
             height: 20,

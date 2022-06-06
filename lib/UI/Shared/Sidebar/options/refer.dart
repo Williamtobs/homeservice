@@ -74,7 +74,7 @@ class ReferAndEarn extends StatelessWidget {
                 children: [
                   Container(
                     width: 250,
-                    height: 45,
+                    height: 50,
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(15)),
                     child: TextField(
