@@ -5,7 +5,7 @@ import 'package:homeservice/UI/BarbingScreen/barbing_screen.dart';
 import 'package:homeservice/UI/Ticketscreen/select_ticket.dart';
 
 import '../Servicescreen/services.dart';
-import '../Ticketscreen/train_ticket.dart';
+import '../Utility/utility.dart';
 
 class Gridview extends StatelessWidget {
   const Gridview({Key? key}) : super(key: key);
@@ -16,9 +16,9 @@ class Gridview extends StatelessWidget {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       crossAxisCount: 3,
-      childAspectRatio: (2 / 2),
-      crossAxisSpacing: 15,
-      mainAxisSpacing: 15,
+      childAspectRatio: 1,
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
       physics: const BouncingScrollPhysics(),
       children: homeService
           .map((data) => GestureDetector(
@@ -34,9 +34,11 @@ class Gridview extends StatelessWidget {
                                   ? BarbingScreen(
                                       name: data.name!,
                                     )
-                                  : BookService(
-                                      name: data.name!,
-                                    )));
+                                  : data.name! == 'Utility'
+                                      ? const Utility()
+                                      : BookService(
+                                          name: data.name!,
+                                        )));
                 },
                 child: Container(
                   //width: 90,

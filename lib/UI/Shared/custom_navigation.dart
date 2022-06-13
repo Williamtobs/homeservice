@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,7 +7,7 @@ import '../Home/home.dart';
 import 'images.dart';
 
 class CustomNavigation extends StatefulWidget {
-  CustomNavigation({Key? key}) : super(key: key);
+  const CustomNavigation({Key? key}) : super(key: key);
 
   @override
   State<CustomNavigation> createState() => _CustomNavigationState();
@@ -26,6 +24,18 @@ class _CustomNavigationState extends State<CustomNavigation> {
     controller = PageController(initialPage: 1);
   }
 
+  void changePage(int newPage) {
+    setState(() {
+      _index = newPage;
+    });
+  }
+
+  nextFunction(int num) {
+    controller?.animateToPage(num,
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    changePage(num);
+  }
+
   @override
   void dispose() {
     controller?.dispose();
@@ -38,11 +48,6 @@ class _CustomNavigationState extends State<CustomNavigation> {
     });
   }
 
-  nextFunction() {
-    controller?.nextPage(
-        duration: const Duration(milliseconds: 300), curve: Curves.ease);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -51,7 +56,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
         children: [
           HistoryScreen(),
           HomeScreen(),
-          ChatWhatsapp(),
+          const ChatWhatsapp(),
         ],
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
@@ -77,16 +82,16 @@ class _CustomNavigationState extends State<CustomNavigation> {
             children: [
               GestureDetector(
                 onTap: () {
-                  controller?.animateToPage(0,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.ease);
+                  nextFunction(0);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.history_outlined,
-                      color: Color.fromRGBO(132, 132, 132, 1),
+                      color: _index == 0
+                          ? const Color.fromRGBO(31, 68, 141, 1)
+                          : const Color.fromRGBO(132, 132, 132, 1),
                       size: 24,
                     ),
                     const SizedBox(height: 5),
@@ -111,16 +116,16 @@ class _CustomNavigationState extends State<CustomNavigation> {
               ),
               GestureDetector(
                 onTap: () {
-                  controller?.animateToPage(2,
-                      duration: const Duration(milliseconds: 100),
-                      curve: Curves.ease);
+                  nextFunction(2);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.chat_bubble_outlined,
-                      color: Color.fromRGBO(132, 132, 132, 1),
+                      color: _index == 2
+                          ? const Color.fromRGBO(31, 68, 141, 1)
+                          : const Color.fromRGBO(132, 132, 132, 1),
                       size: 24,
                     ),
                     const SizedBox(height: 5),
@@ -141,9 +146,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
           onTap: () {
-            controller?.animateToPage(1,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.ease);
+            nextFunction(1);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -171,3 +174,152 @@ class _CustomNavigationState extends State<CustomNavigation> {
     ]);
   }
 }
+
+// class CustomNavigation extends StatefulWidget {
+//   const CustomNavigation({Key? key}) : super(key: key);
+
+//   @override
+//   State<CustomNavigation> createState() => _CustomNavigationState();
+// }
+
+// class _CustomNavigationState extends State<CustomNavigation> {
+//   int? currentPage = 1;
+//   PageController? controller;
+
+//   void changePage(int newPage) {
+//     setState(() {
+//       currentPage = newPage;
+//     });
+//   }
+
+//   nextFunction(int num) {
+//     controller?.animateToPage(num,
+//         duration: const Duration(milliseconds: 300), curve: Curves.ease);
+//     changePage(num);
+//   }
+
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     controller = PageController(initialPage: 1);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.blue,
+//       body: Stack(
+//         children: [
+//           PageView(
+//             controller: controller,
+//             children: [
+//               HistoryScreen(),
+//               HomeScreen(),
+//               ChatWhatsapp(),
+//             ],
+//             scrollDirection: Axis.horizontal,
+//             physics: const NeverScrollableScrollPhysics(),
+//           ),
+//           Positioned(
+//               bottom: 0,
+//               left: 0,
+//               child: SizedBox(
+//                 width: MediaQuery.of(context).size.width,
+//                 height: 70,
+//                 child: Stack(
+//                   children: [
+//                     CustomPaint(
+//                       size: Size(MediaQuery.of(context).size.width, 70),
+//                       painter: BNBCustomPainter(),
+//                     ),
+//                     Center(
+//                       heightFactor: 0.7,
+//                       child: FloatingActionButton(
+//                         onPressed: () {
+//                           nextFunction(1);
+//                         },
+//                         backgroundColor: Colors.white,
+//                         elevation: 0.5,
+//                         child: Container(
+//                           width: 60,
+//                           // padding: const EdgeInsets.all(4),
+//                           decoration: const BoxDecoration(
+//                             shape: BoxShape.circle,
+//                             image: DecorationImage(
+//                                 image: AssetImage(homeicon), fit: BoxFit.fill),
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                     Padding(
+//                       padding: const EdgeInsets.only(bottom: 8.0),
+//                       child: SizedBox(
+//                         width: MediaQuery.of(context).size.width,
+//                         height: 70,
+//                         child: Row(
+//                           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                           children: [
+//                             IconButton(
+//                                 onPressed: () {
+//                                   nextFunction(0);
+//                                 },
+//                                 icon: Icon(
+//                                   Icons.history_outlined,
+//                                   color: currentPage == 0
+//                                       ? const Color.fromRGBO(31, 68, 141, 1)
+//                                       : const Color.fromRGBO(132, 132, 132, 1),
+//                                   size: 34,
+//                                 )),
+//                             Container(
+//                               width: MediaQuery.of(context).size.width * 0.10,
+//                             ),
+//                             IconButton(
+//                                 onPressed: () {
+//                                   nextFunction(2);
+//                                 },
+//                                 icon: Icon(
+//                                   Icons.chat_bubble_outlined,
+//                                   color: currentPage == 2
+//                                       ? const Color.fromRGBO(31, 68, 141, 1)
+//                                       : const Color.fromRGBO(132, 132, 132, 1),
+//                                   size: 34,
+//                                 ))
+//                           ],
+//                         ),
+//                       ),
+//                     )
+//                   ],
+//                 ),
+//               ))
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class BNBCustomPainter extends CustomPainter {
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     Paint paint = Paint()
+//       ..color = Colors.white
+//       ..style = PaintingStyle.fill;
+//     Path path = Path()..moveTo(0, 20);
+//     path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
+//     path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 20);
+//     path.arcToPoint(Offset(size.width * 0.60, 25),
+//         radius: const Radius.circular(10.0), clockwise: false);
+//     path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
+//     path.quadraticBezierTo(size.width * 0.80, 0, size.width, 20);
+//     path.lineTo(size.width, size.height);
+//     path.lineTo(0, size.height);
+//     path.close();
+//     canvas.drawShadow(path, Colors.black, 5, true);
+//     canvas.drawPath(path, paint);
+//   }
+
+//   @override
+//   bool shouldRepaint(covariant CustomPainter oldDelegate) {
+//     return false;
+//   }
+// }

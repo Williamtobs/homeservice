@@ -56,51 +56,74 @@ class HistoryScreen extends StatelessWidget {
                         'Some error occurred')); // Show an error just in case(no internet etc)
               }
               _historyList = snapshot.data!.docs;
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: ListView.builder(
-                  itemBuilder: ((context, index) {
-                    final items = _historyList![index];
-                    //print(_historyList![index].id);
-                    if (_historyList!.isEmpty) {
-                      return Center(
-                          child: Text('No recent order',
+              var list = ['1'];
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                      child: list.length < 2
+                          ? Text('No recent order',
                               style: GoogleFonts.montserrat(
                                   fontWeight: FontWeight.w400,
                                   fontStyle: FontStyle.normal,
                                   color: Colors.black,
-                                  fontSize: 14.0)));
-                    }
-                    if (!_historyList!.contains(items['uid'])) {
-                      return Center(
-                          child: Text('No recent order',
-                              style: GoogleFonts.montserrat(
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  color: Colors.black,
-                                  fontSize: 14.0)));
-                    }
-                    if (items['uid'] == data.currentUser!.uid) {
-                      return GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OrderSummary(
-                                      id: items['service_id'],
-                                    ))),
-                        child: HistoryCard(
-                          amount: items['amount'],
-                          id: items['service_id'],
-                          orderType: items['service_type'],
-                          scheduledDate: items['date_time'],
-                        ),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  }),
-                  itemCount: _historyList!.length,
-                ),
+                                  fontSize: 14.0))
+                          : Container()),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ListView.builder(
+                        itemBuilder: ((context, index) {
+                          final items = _historyList![index];
+
+                          //print(_historyList![index].id);
+                          if (_historyList!.isEmpty) {
+                            return Center(
+                                child: Text('No recent order',
+                                    style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w400,
+                                        fontStyle: FontStyle.normal,
+                                        color: Colors.black,
+                                        fontSize: 14.0)));
+                          }
+
+                          // else if (!_historyList!.contains(items['uid'])) {
+                          //   return Center(
+                          //       child: Text('No recent order',
+                          //           style: GoogleFonts.montserrat(
+                          //               fontWeight: FontWeight.w400,
+                          //               fontStyle: FontStyle.normal,
+                          //               color: Colors.black,
+                          //               fontSize: 14.0)));
+                          // }
+
+                          else if (items['uid'] == data.currentUser!.uid) {
+                            list.add(items['uid']);
+                            return GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OrderSummary(
+                                            id: items['service_id'],
+                                          ))),
+                              child: HistoryCard(
+                                amount: items['amount'],
+                                id: items['service_id'],
+                                orderType: items['service_type'],
+                                scheduledDate: items['date_time'],
+                              ),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }),
+                        itemCount: _historyList!.length,
+                      ),
+                    ),
+                  ),
+                ],
               );
             });
       }),

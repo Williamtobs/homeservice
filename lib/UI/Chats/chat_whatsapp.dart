@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeservice/UI/Shared/images.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Notification/notification_screen.dart';
@@ -42,6 +43,9 @@ class ChatWhatsapp extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Image.asset(liveChat,
+              width: MediaQuery.of(context).size.width * 0.6, height: 140),
+          const SizedBox(height: 20),
           Center(
             child: Text('Reach out to us on Whatsapp',
                 style: GoogleFonts.montserrat(

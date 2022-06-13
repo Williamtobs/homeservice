@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 class ProfileTextField extends StatelessWidget {
   final TextEditingController controller;
   final Color? color;
-  const ProfileTextField({Key? key, required this.controller, this.color})
+  final bool? enable;
+  const ProfileTextField(
+      {Key? key, required this.controller, this.color, this.enable})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      enabled: false,
+      enabled: enable ?? false,
       controller: controller,
       decoration: InputDecoration(
         filled: true,
