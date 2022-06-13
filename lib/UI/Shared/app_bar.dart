@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,6 +11,7 @@ class Appbar extends StatelessWidget {
       centerTitle: true,
       backgroundColor: const Color.fromRGBO(254, 254, 254, 1),
       elevation: 0,
+      automaticallyImplyLeading: false,
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back_ios_new_outlined,

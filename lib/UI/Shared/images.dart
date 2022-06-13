@@ -35,3 +35,5 @@ const String email = 'assets/email.jpg';
 const String otp = 'assets/otp.png';
 const String checkDialog = 'assets/check_dialog.png';
 const String cancelIcon = 'assets/multiply.png';
+const String liveChat = 'assets/live_chat.png';
+const String bill = 'assets/bill.png';
